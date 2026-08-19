@@ -73,6 +73,3 @@ export const interestOptions = [
   'מוצרים',
   'אחר',
 ] as const;
-
-/** Where lead notifications are delivered. */
-export const leadRecipient = 'mm.tech.israel.dev@gmail.com';

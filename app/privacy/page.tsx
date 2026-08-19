@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import PageHead from '@/components/PageHead';
-import { contact, leadRecipient, site } from '@/lib/site';
+import { contact, site } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'מדיניות פרטיות',
@@ -41,8 +41,7 @@ export default function PrivacyPage() {
           <h3>איפה המידע נשמר</h3>
           <p>
             הפניות נשמרות במערכת ניהול התוכן של האתר (Vision OS) ובמקביל נשלחת התראה בדואר אלקטרוני
-            לכתובת הניהול של המרכז ({leadRecipient}). הגישה למידע מוגבלת לצוות המרכז ולספק התשתית
-            הטכנית שלנו.
+            לכתובת הניהול של המרכז. הגישה למידע מוגבלת לצוות המרכז ולספק התשתית הטכנית שלנו.
           </p>
 
           <h3>העברת מידע לצדדים שלישיים</h3>

@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 
-import { createLead, escapeHtml, sendProjectEmail } from '@/lib/vision-os/server';
-import { contact, interestOptions, leadRecipient, site } from '@/lib/site';
+import { createLead, escapeHtml } from '@/lib/vision-os/server';
+import { notifyRecipients, sendMail } from '@/lib/mailer';
+import { contact, interestOptions, site } from '@/lib/site';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -85,19 +86,24 @@ export async function POST(req: Request) {
     );
   }
 
-  const emailed = await sendProjectEmail({
-    to: leadRecipient,
+  const mail = await sendMail({
+    to: notifyRecipients(),
     subject: `פנייה חדשה מהאתר — ${fullName}`,
     html: notificationHtml({ fullName, phone, email, interest, message, sourcePage }),
     text: notificationText({ fullName, phone, email, interest, message, sourcePage }),
+    // Replying to the notification answers the visitor directly.
+    replyTo: email || undefined,
   });
 
-  if (!emailed) {
+  if (!mail.sent) {
     // The lead is safe in the CMS; log for follow-up but do not fail the visitor.
-    console.error('[leads] saved to CMS but email notification failed', { leadId: lead.id });
+    console.error('[leads] saved to CMS but email notification failed', {
+      leadId: lead.id,
+      error: mail.error,
+    });
   }
 
-  return NextResponse.json({ ok: true, saved: true, emailed });
+  return NextResponse.json({ ok: true, saved: true, emailed: mail.sent, via: mail.channel });
 }
 
 interface Notification {

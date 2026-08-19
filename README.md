@@ -12,7 +12,7 @@ App Router and driven by Vision OS as a headless CMS.
 | Framework | Next.js 15 (App Router, React 19, TypeScript strict) |
 | Package manager | pnpm |
 | CMS | Vision OS (`https://morevision.co.il/api`) |
-| Mail | Vision OS project SMTP |
+| Mail | Project SMTP via nodemailer, with a Vision OS fallback |
 | Language / direction | Hebrew, RTL |
 
 ## Getting started
@@ -41,6 +41,17 @@ Server-side only — never expose these to the browser and never prefix with `NE
 | `VISION_OS_API_URL` | API base, `https://morevision.co.il/api` |
 | `VISION_OS_API_KEY` | Project API key (`vos_…`) |
 | `VISION_OS_PROJECT_ID` | Vision OS project id |
+| `SMTP_HOST` | Mail host. **Empty disables direct sending** and the site uses the Vision OS mailer instead |
+| `SMTP_PORT` | 587 for STARTTLS, 465 for implicit TLS |
+| `SMTP_USER` / `SMTP_PASS` | SMTP credentials |
+| `SMTP_FROM` | From header, e.g. `Name <smtp@example.com>` |
+| `SMTP_SECURE` | `true`/`false`; omit and the port decides |
+| `ADMIN_NOTIFY_EMAIL` | Where form submissions are emailed |
+| `CONTACT_EMAIL` | Also notified; duplicates are collapsed |
+
+No recipient address is hard-coded in this repository — if neither
+`ADMIN_NOTIFY_EMAIL` nor `CONTACT_EMAIL` is set, sending is treated as a
+misconfiguration and logged rather than routed to a default inbox.
 
 Remote Vision OS builds do **not** read `.env.local` from git. Production values
 live in Vision OS → project → deploy settings (`buildConfig.env`).
@@ -74,9 +85,14 @@ Notes on fields:
 1. validates the input and rejects bots via a honeypot field,
 2. rate-limits to 5 submissions per IP per 10 minutes,
 3. creates and publishes a record in the `leads` collection,
-4. emails a notification through the project's SMTP.
+4. emails a notification via `lib/mailer.ts`.
 
-If the email step fails the lead is still stored and the visitor still sees
+Mail takes the project SMTP first (`SMTP_*`). If that send fails — bad
+credentials, host down, network blip — it automatically retries through the
+Vision OS project mailer, so a notification is not lost to a single broken
+channel. The JSON response reports which channel was used as `via`.
+
+If every mail channel fails the lead is still stored and the visitor still sees
 success — the submission is never silently lost. If the CMS write itself fails,
 the visitor is told to phone instead rather than shown a false confirmation.
 

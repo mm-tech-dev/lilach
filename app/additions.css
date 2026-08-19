@@ -1,0 +1,825 @@
+/* ==========================================================================
+   Additions for the multi-page site.
+
+   globals.css is the approved design, kept byte-for-byte. Everything here
+   either supports pages that did not exist in the single-page mockup, or
+   fixes behaviour that only started to matter once it became a real site.
+   ========================================================================== */
+
+/* --- accessibility ------------------------------------------------------- */
+/* Clipped rather than pushed off-canvas, so it can never create a scroll axis. */
+.skipLink {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  z-index: 200;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 0 0 12px 0;
+  font-weight: 700;
+}
+.skipLink:focus {
+  width: auto;
+  height: auto;
+  clip-path: none;
+}
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid #9f7bc7;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- mobile navigation --------------------------------------------------- */
+/* The mockup hid the nav below 900px; a multi-page site needs a way through. */
+.mobileNavToggle {
+  display: none;
+  background: #fff;
+  border: 1px solid var(--lilac);
+  border-radius: 14px;
+  width: 46px;
+  height: 46px;
+  cursor: pointer;
+  place-items: center;
+  color: var(--ink);
+  box-shadow: 0 8px 22px #58426b14;
+}
+.mobileNavToggle .bars {
+  display: grid;
+  gap: 5px;
+  width: 20px;
+}
+.mobileNavToggle .bars i {
+  display: block;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.2s;
+}
+.mobileNavToggle .bars.open i:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mobileNavToggle .bars.open i:nth-child(2) {
+  opacity: 0;
+}
+.mobileNavToggle .bars.open i:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobileDrawer {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 120;
+  background: var(--cream);
+  border-bottom: 1px solid var(--lilac);
+  padding: 96px 26px 32px;
+  display: grid;
+  gap: 22px;
+  box-shadow: 0 30px 60px #58426b26;
+  max-height: 100dvh;
+  overflow-y: auto;
+}
+.mobileDrawer nav {
+  display: grid;
+  gap: 4px;
+}
+.mobileDrawer nav a {
+  padding: 14px 6px;
+  border-bottom: 1px solid #dccef47a;
+  font-size: 19px;
+  font-weight: 600;
+}
+.mobileDrawer nav a[aria-current="page"] {
+  color: #9a5ccd;
+}
+.drawerPhone {
+  background: var(--lime);
+  color: var(--ink);
+  border-radius: 50px;
+  padding: 15px;
+  text-align: center;
+  font-weight: 700;
+}
+.drawerSocials {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.mobileScrim {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: #2a1b3559;
+  border: 0;
+  cursor: pointer;
+}
+
+@media (width<=900px) {
+  .mobileNavToggle {
+    display: grid;
+  }
+  /* Keep logo and toggle on opposite edges instead of the mockup's centring. */
+  .nav {
+    justify-content: space-between;
+  }
+}
+@media (width<=600px) {
+  .nav {
+    justify-content: space-between;
+  }
+  .mobileNavToggle {
+    display: grid;
+  }
+  .nav .brand {
+    justify-content: flex-start;
+  }
+}
+
+/* --- forms --------------------------------------------------------------- */
+.contact textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: 0 0;
+  border: 0;
+  border-bottom: 1px solid #bdcac6;
+  outline: none;
+  padding: 13px 0;
+  resize: vertical;
+  min-height: 96px;
+}
+.contact textarea:focus {
+  border-color: #b699cb;
+}
+.contact button[disabled] {
+  opacity: 0.65;
+  cursor: progress;
+}
+.formError {
+  color: #a3323f;
+  background: #fdecee;
+  border-radius: 14px;
+  padding: 11px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+.formSuccess {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+  padding: 26px 10px;
+}
+.formSuccess > span {
+  font-size: 34px;
+  color: var(--green);
+}
+.formSuccess strong {
+  font-size: 24px;
+  font-weight: 700;
+}
+.formSuccess p {
+  margin: 0;
+  color: var(--muted);
+}
+.formReset {
+  background: 0 0;
+  border: 1px solid #bdcac6;
+  border-radius: 50px;
+  padding: 11px 22px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  margin-top: 6px;
+}
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- homepage tweaks ----------------------------------------------------- */
+/* Testimonials now carry their full CMS text, so cards clamp to stay even. */
+.clampQuote {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.testimonialGrid blockquote p {
+  margin: 0;
+}
+.testimonialGrid blockquote p + p {
+  margin-top: 12px;
+}
+.storiesMore {
+  margin-top: 38px;
+  text-align: center;
+}
+.storiesMore .underLink {
+  color: var(--ink);
+}
+.play {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* --- footer additions ---------------------------------------------------- */
+.socialRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.socialRow a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+.socialRow a:hover {
+  color: #fff;
+}
+.socialRow svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+}
+.footerPhone {
+  display: inline-block;
+  margin-top: 4px;
+  color: #fff;
+  font-weight: 700;
+}
+.footerLegal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #8ca09a;
+}
+.footerLegal a:hover {
+  color: #fff;
+}
+
+/* --- interior page header ------------------------------------------------ */
+.pageHead {
+  position: relative;
+  overflow: hidden;
+  padding: 70px 0 0;
+}
+.pageHead .wrap {
+  position: relative;
+  z-index: 2;
+}
+.pageHead .halo {
+  position: absolute;
+  inset: -180px -120px auto auto;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle, #dccef4a1, #fff9f000 68%);
+  pointer-events: none;
+}
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.breadcrumbs a:hover {
+  color: #9a5ccd;
+}
+.breadcrumbs .current {
+  font-weight: 700;
+  color: var(--ink);
+}
+.pageHead h1 {
+  font-size: 72px;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin: 0;
+}
+.pageHead h1 span {
+  color: #9a5ccd;
+  font-style: italic;
+}
+.pageLead {
+  max-width: 640px;
+  margin: 22px 0 0;
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+@media (width<=900px) {
+  .pageHead h1 {
+    font-size: 56px;
+  }
+}
+@media (width<=600px) {
+  .pageHead {
+    text-align: center;
+    padding-top: 50px;
+  }
+  .pageHead h1 {
+    font-size: 42px;
+  }
+  .pageLead {
+    margin-inline: auto;
+  }
+  .breadcrumbs {
+    justify-content: center;
+  }
+}
+
+/* --- rich text from the CMS --------------------------------------------- */
+.prose {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.95;
+  text-align: start;
+}
+.prose > *:first-child {
+  margin-top: 0;
+}
+.prose p {
+  margin: 0 0 18px;
+}
+.prose h3 {
+  color: var(--ink);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 38px 0 14px;
+}
+.prose h4 {
+  color: var(--ink);
+  font-size: 21px;
+  font-weight: 700;
+  margin: 30px 0 12px;
+}
+.prose strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+.prose ul,
+.prose ol {
+  margin: 0 0 20px;
+  padding-inline-start: 0;
+  list-style: none;
+  display: grid;
+  gap: 11px;
+}
+.prose li {
+  position: relative;
+  padding-inline-start: 26px;
+}
+.prose ul li::before {
+  content: "\2726";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  color: var(--green);
+  font-size: 13px;
+  line-height: 1.9;
+}
+.prose ol {
+  counter-reset: prose-ol;
+}
+.prose ol li {
+  counter-increment: prose-ol;
+}
+.prose ol li::before {
+  content: counter(prose-ol) ".";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  color: var(--green);
+  font-weight: 700;
+}
+.prose a {
+  color: #9a5ccd;
+  border-bottom: 1px solid #9a5ccd66;
+}
+
+/* --- detail page layout -------------------------------------------------- */
+.detailGrid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 60px;
+  align-items: start;
+}
+.detailAside {
+  display: grid;
+  gap: 22px;
+  position: sticky;
+  top: 24px;
+}
+.detailCard {
+  background: #fff;
+  border-radius: 28px;
+  padding: 30px;
+  box-shadow: 0 20px 50px #58426b0f;
+  text-align: start;
+}
+.detailCard h2 {
+  font-size: 22px !important;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+.detailCard .primary,
+.detailCard .outline {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+.metaList {
+  margin: 0 0 20px;
+}
+.metaList > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ece3f5;
+  font-size: 15px;
+}
+.metaList > div:last-child {
+  border-bottom: 0;
+}
+.metaList dt {
+  color: var(--muted);
+}
+.metaList dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: end;
+}
+.metaPrice {
+  color: #9a5ccd;
+  font-size: 19px;
+}
+.detailMedia {
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin-bottom: 38px;
+  box-shadow: 0 30px 70px #58426b1f;
+}
+.detailMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (width<=900px) {
+  .detailGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .detailAside {
+    position: static;
+  }
+}
+
+/* --- course cards -------------------------------------------------------- */
+.courseCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+  margin-top: 46px;
+}
+.courseCard {
+  background: #fff;
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px #58426b0d;
+  transition: transform 0.25s, box-shadow 0.25s;
+  text-align: start;
+}
+.courseCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 65px #58426b1f;
+}
+.courseCardMedia {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--lilac);
+}
+.courseCardMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.courseCardBody {
+  padding: 26px 26px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.courseBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.badge {
+  background: #f4edfd;
+  color: #7b4cbe;
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.badge.dateBadge {
+  background: #fdf1e6;
+  color: #b5714a;
+}
+.courseCard h3 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+.courseCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 15px;
+}
+.courseCardFoot {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  border-top: 1px solid #f0e9f7;
+}
+.courseCardFoot .price {
+  font-weight: 700;
+  color: #9a5ccd;
+}
+.courseCardFoot .go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* --- product cards ------------------------------------------------------- */
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 26px;
+  margin-top: 46px;
+}
+.productCard {
+  background: #fff;
+  border-radius: 26px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 18px 45px #58426b0d;
+  text-align: start;
+}
+.productCard .mark {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f4edfd;
+  color: #7b4cbe;
+  font-size: 18px;
+}
+.productCard h3 {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+}
+.productCard p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+.productCard .foot {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #f0e9f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.productCard .price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #9a5ccd;
+}
+.buyLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--lime);
+  color: var(--ink);
+  border-radius: 50px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.productMedia {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--lilac);
+}
+.productMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- full testimonial list ---------------------------------------------- */
+.reviewColumns {
+  columns: 3 320px;
+  column-gap: 26px;
+  margin-top: 46px;
+}
+.reviewColumns article {
+  break-inside: avoid;
+  background: #fff;
+  border-radius: 26px;
+  padding: 30px;
+  margin-bottom: 26px;
+  box-shadow: 0 18px 45px #58426b0d;
+  text-align: start;
+}
+.reviewColumns blockquote {
+  margin: 20px 0;
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+.reviewColumns blockquote p {
+  margin: 0 0 12px;
+}
+.reviewColumns blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- about page ---------------------------------------------------------- */
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  margin-top: 44px;
+}
+.teamCard {
+  background: #fff;
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 20px 50px #58426b0d;
+  text-align: start;
+}
+.teamCard h3 {
+  font-size: 25px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+.teamCard .role {
+  color: #9a5ccd;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+.teamCard p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.85;
+  font-size: 15px;
+}
+.storyBody {
+  max-width: 780px;
+  margin-top: 40px;
+}
+
+/* --- contact page ------------------------------------------------------- */
+.contactInfo {
+  display: grid;
+  gap: 18px;
+  margin: 30px 0 0;
+}
+.contactInfo > div {
+  background: #fff;
+  border-radius: 22px;
+  padding: 22px 24px;
+  box-shadow: 0 16px 40px #58426b0d;
+  text-align: start;
+}
+.contactInfo strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.contactInfo p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* --- shared bits -------------------------------------------------------- */
+.emptyState {
+  background: #fff;
+  border-radius: 26px;
+  padding: 44px 30px;
+  text-align: center;
+  color: var(--muted);
+  box-shadow: 0 18px 45px #58426b0d;
+  margin-top: 40px;
+}
+.legalPage .prose {
+  max-width: 780px;
+  margin-top: 40px;
+}
+.ctaStrip {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 34px;
+  padding: 52px 46px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  margin: 90px 0 0;
+  text-align: start;
+}
+.ctaStrip h2 {
+  font-size: 40px !important;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.15;
+  color: #fff;
+}
+.ctaStrip p {
+  margin: 10px 0 0;
+  color: #e2d6f2;
+  max-width: 460px;
+  line-height: 1.8;
+}
+.ctaStrip .primary {
+  background: var(--lime);
+  color: var(--ink);
+}
+.notFound {
+  padding: 120px 0;
+  text-align: center;
+}
+.notFound h1 {
+  font-size: 84px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+.notFound p {
+  color: var(--muted);
+  margin: 0 0 26px;
+}
+@media (width<=600px) {
+  .ctaStrip {
+    padding: 38px 26px;
+    text-align: center;
+    justify-content: center;
+  }
+  .ctaStrip h2 {
+    font-size: 32px !important;
+  }
+  .reviewColumns {
+    columns: 1;
+  }
+  .notFound h1 {
+    font-size: 60px;
+  }
+}

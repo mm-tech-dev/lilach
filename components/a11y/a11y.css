@@ -1,0 +1,332 @@
+/* ============================================================================
+   Reusable Accessibility Widget - styles
+   Portable: copy the whole `a11y/` folder into any Next.js app and import the
+   component. Theme it by overriding the CSS variables below.
+   ========================================================================== */
+
+:root {
+  --a11y-accent: #634b78; /* המרכז להפצת אור — brand violet (--ink) */
+  --a11y-accent-ink: #ffffff; /* readable text on the accent */
+  --a11y-panel-bg: #fff9f0; /* brand cream */
+  --a11y-panel-fg: #634b78; /* brand ink */
+  --a11y-panel-muted: #655b58;
+  --a11y-panel-line: #e6dcf3;
+}
+
+/* ---------- Launcher button ---------- */
+.a11y-launcher {
+  position: fixed;
+  /* Bottom inline-end corner; this site has no floating chat button to clear. */
+  bottom: 24px;
+  inset-inline-end: 20px;
+  z-index: 9998;
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  background: var(--a11y-accent);
+  color: var(--a11y-accent-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--a11y-accent-ink);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.a11y-launcher:hover {
+  transform: scale(1.06);
+}
+
+/* ---------- Panel ---------- */
+.a11y-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.35);
+  z-index: 9998;
+}
+.a11y-panel {
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+  height: 100%;
+  width: 360px;
+  max-width: 90vw;
+  background: var(--a11y-panel-bg);
+  color: var(--a11y-panel-fg);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.25);
+  /* Match the site's Hebrew face, falling back to the system stack. */
+  font-family: var(--font-assistant), Assistant, "Noto Sans Hebrew", system-ui,
+    -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.a11y-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--a11y-panel-line);
+}
+.a11y-panel-header h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
+}
+.a11y-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.a11y-lang-btn,
+.a11y-close {
+  background: none;
+  border: 1px solid var(--a11y-panel-line);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--a11y-panel-fg);
+  line-height: 1;
+}
+.a11y-close {
+  padding: 6px;
+  display: flex;
+}
+.a11y-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+.a11y-section {
+  margin-bottom: 20px;
+}
+.a11y-section-title {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--a11y-panel-muted);
+  margin: 0 0 10px;
+}
+.a11y-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.a11y-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border: 1px solid var(--a11y-panel-line);
+  border-radius: 8px;
+  background: var(--a11y-panel-bg);
+  color: var(--a11y-panel-fg);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.a11y-card:hover {
+  border-color: var(--a11y-panel-fg);
+}
+.a11y-card.is-active {
+  background: var(--a11y-accent);
+  border-color: var(--a11y-accent-ink);
+  color: var(--a11y-accent-ink);
+}
+.a11y-card svg {
+  flex-shrink: 0;
+}
+.a11y-card-wide {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.a11y-card-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.a11y-stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.a11y-stepper button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--a11y-panel-line);
+  border-radius: 6px;
+  background: var(--a11y-panel-bg);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--a11y-panel-fg);
+}
+.a11y-stepper-value {
+  min-width: 42px;
+  text-align: center;
+  font-weight: 700;
+}
+.a11y-panel-footer {
+  border-top: 1px solid var(--a11y-panel-line);
+  padding: 14px 20px;
+  text-align: center;
+}
+.a11y-reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--a11y-panel-fg);
+  border-radius: 8px;
+  background: var(--a11y-panel-bg);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--a11y-panel-fg);
+}
+.a11y-statement-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--a11y-panel-muted);
+  text-decoration: underline;
+}
+
+/* ---------- Reading guide ---------- */
+.a11y-reading-guide {
+  position: fixed;
+  inset-inline: 0;
+  height: 28px;
+  background: rgba(17, 17, 17, 0.55);
+  border-top: 2px solid var(--a11y-accent);
+  border-bottom: 2px solid var(--a11y-accent);
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ============================================================================
+   Effects applied to the document (scoped under <html> classes)
+   ========================================================================== */
+
+html.a11y-highlight-titles :is(h1, h2, h3, h4, h5, h6) {
+  background: #fff3a3 !important;
+  color: #000 !important;
+  outline: 2px solid #000 !important;
+  padding: 2px 4px !important;
+}
+html.a11y-highlight-links a {
+  text-decoration: underline !important;
+  background: #fffbcc !important;
+  color: #000 !important;
+  outline: 2px dashed #000 !important;
+  outline-offset: 1px;
+}
+html.a11y-dyslexic,
+html.a11y-dyslexic :not(.a11y-root, .a11y-root *) {
+  font-family: "OpenDyslexic", "Comic Sans MS", "Comic Neue", cursive !important;
+}
+html.a11y-letter-spacing :not(.a11y-root, .a11y-root *) {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
+}
+html.a11y-line-height :not(.a11y-root, .a11y-root *) {
+  line-height: 2 !important;
+}
+html.a11y-font-weight :not(.a11y-root, .a11y-root *) {
+  font-weight: 700 !important;
+}
+html.a11y-align-left :not(.a11y-root, .a11y-root *) {
+  text-align: left !important;
+}
+html.a11y-reading-mode :is(p, li) {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 1.05em !important;
+  line-height: 1.9 !important;
+}
+html.a11y-reading-mode :is(video, iframe, [role="banner"] img) {
+  filter: grayscale(0.4);
+}
+html.a11y-image-alt img {
+  outline: 3px solid var(--a11y-accent) !important;
+  outline-offset: 2px;
+}
+
+/* Color modes - applied to each top-level child of <body> except the widget,
+   so the widget itself stays readable. */
+html.a11y-color-monochrome body > *:not(.a11y-root) {
+  filter: grayscale(1) !important;
+}
+html.a11y-color-sepia body > *:not(.a11y-root) {
+  filter: sepia(0.75) !important;
+}
+html.a11y-color-invert body > *:not(.a11y-root) {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+html.a11y-color-high-saturation body > *:not(.a11y-root) {
+  filter: saturate(2) !important;
+}
+html.a11y-color-low-saturation body > *:not(.a11y-root) {
+  filter: saturate(0.4) !important;
+}
+html.a11y-color-high-contrast body > *:not(.a11y-root) {
+  filter: contrast(1.45) !important;
+}
+html.a11y-color-dark body > *:not(.a11y-root),
+html.a11y-color-dark body > *:not(.a11y-root) :not(svg, path) {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #555 !important;
+}
+html.a11y-color-light body > *:not(.a11y-root),
+html.a11y-color-light body > *:not(.a11y-root) :not(svg, path) {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+html.a11y-color-yellow-black body > *:not(.a11y-root),
+html.a11y-color-yellow-black body > *:not(.a11y-root) :not(svg, path) {
+  background-color: #000 !important;
+  color: #ff0 !important;
+  border-color: #ff0 !important;
+}
+
+/* Navigation tools */
+html.a11y-stop-animations *,
+html.a11y-stop-animations *::before,
+html.a11y-stop-animations *::after {
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+  scroll-behavior: auto !important;
+}
+html.a11y-keyboard-nav *:focus {
+  outline: 3px solid var(--a11y-accent) !important;
+  outline-offset: 2px !important;
+}
+html.a11y-big-cursor,
+html.a11y-big-cursor * {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'><path d='M4 2l7 18 2.2-7.2L20 10.6z' fill='white' stroke='black' stroke-width='1.5' stroke-linejoin='round'/></svg>")
+      4 4,
+    auto !important;
+}
+html.a11y-black-cursor,
+html.a11y-black-cursor * {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24'><path d='M4 2l7 18 2.2-7.2L20 10.6z' fill='black' stroke='white' stroke-width='1.5' stroke-linejoin='round'/></svg>")
+      4 4,
+    auto !important;
+}
+
+@media (max-width: 480px) {
+  .a11y-panel {
+    width: 100vw;
+  }
+}

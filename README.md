@@ -107,6 +107,24 @@ The mockup hid navigation below 900px because it was one page with anchor links.
 `components/MobileNav.tsx` adds a drawer at that breakpoint so the multi-page
 site stays navigable on phones.
 
+## Accessibility widget
+
+`components/a11y/` is a self-contained widget (component, styles, Hebrew
+strings) mounted once in the root layout. It offers font and zoom scaling,
+text and colour adjustments, and navigation aids, persisting the visitor's
+choices in `localStorage` under `a11y-settings-v1`.
+
+Two things it depends on, worth knowing before moving it:
+
+- It must stay a **direct child of `<body>`**, beside `<main>`. Its colour modes
+  are applied with `body > *:not(.a11y-root)`, so nesting it inside `<main>`
+  would make it recolour itself.
+- Everything it renders is wrapped in `.a11y-root`, which is the subtree those
+  same rules exclude.
+
+Theme it through the CSS variables at the top of `a11y.css`; they are set to the
+site's palette rather than the widget's original defaults.
+
 ## Deployment
 
 Pushing to `main` triggers a Vision OS build. To deploy manually:

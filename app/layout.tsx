@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Assistant } from 'next/font/google';
 
+import AccessibilityWidget from '@/components/a11y/AccessibilityWidget';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Topline from '@/components/Topline';
@@ -66,6 +67,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div id="main">{children}</div>
           <Footer />
         </main>
+        {/* Sibling of <main>, not a child: the widget's colour modes filter
+            every top-level element except its own `.a11y-root` subtree. */}
+        <AccessibilityWidget />
       </body>
     </html>
   );

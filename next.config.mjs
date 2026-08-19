@@ -1,6 +1,9 @@
-import type { NextConfig } from 'next';
+// Plain ESM rather than TypeScript on purpose: loading a .ts config requires
+// the `typescript` package to be present, which makes the build fail on any
+// deploy that installs production dependencies only.
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   // NOTE: `output: 'standalone'` is deliberately NOT set here. Vision OS injects

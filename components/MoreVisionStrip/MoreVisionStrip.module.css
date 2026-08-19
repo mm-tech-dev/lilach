@@ -1,0 +1,72 @@
+/* Self-contained styles for the MoreVision footer strip.
+   Scoped via CSS Modules — will not leak to or override other components.
+   Uses its own dark palette so it looks correct on the dark footer regardless
+   of site variables. Fully responsive (desktop + mobile). */
+
+.strip {
+  background: #211a15;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 22px;
+  direction: ltr;
+}
+
+.inner {
+  max-width: 1200px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 28px;
+  flex-wrap: wrap;
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  transition: opacity 0.15s ease;
+}
+.logoLink:hover {
+  opacity: 0.85;
+}
+
+.logo {
+  height: 30px;
+  width: auto;
+  max-width: 100%;
+  display: block;
+}
+
+.copy {
+  font-family: Arial, Helvetica, system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+.copy:hover {
+  color: #ffffff;
+}
+
+/* Mobile: stack and center */
+@media (max-width: 600px) {
+  .strip {
+    padding: 18px 18px;
+  }
+  .inner {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+  }
+  .logo {
+    height: 26px;
+  }
+  .copy {
+    font-size: 0.8rem;
+    white-space: normal;
+  }
+}

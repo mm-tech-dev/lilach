@@ -6,9 +6,12 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  // NOTE: `output: 'standalone'` is deliberately NOT set here. Vision OS injects
-  // it for the runtime image on its Linux builder; setting it locally breaks
-  // `pnpm build` on Windows, where the tracing step cannot create symlinks.
+  // Vision OS builds the runtime container from `.next/standalone`, so the
+  // standalone output is required on its Linux builder. It is skipped on
+  // Windows, where Next's file-tracing step cannot create the symlinks it needs
+  // and `pnpm build` fails with EPERM. The deploy platform is always Linux, so
+  // the artefact it needs is always produced.
+  output: process.platform === 'win32' ? undefined : 'standalone',
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'media.morevision.ai', pathname: '/**' },

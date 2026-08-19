@@ -57,7 +57,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="he" dir="rtl" className={assistant.variable}>
-      <body>
+      {/* Browser extensions (ColorZilla, Grammarly, password managers) add
+          attributes to <body> before React hydrates, which React reports as a
+          mismatch. This suppresses that for this element's attributes only —
+          it does not hide mismatches in the page's own markup. */}
+      <body suppressHydrationWarning>
         <a className="skipLink" href="#main">
           דלג לתוכן
         </a>

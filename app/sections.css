@@ -124,11 +124,7 @@
   margin: 0 0 46px;
   white-space: nowrap;
 }
-.visionTitle span,
-.stories .stackedHead h2 span {
-  color: var(--green);
-  font-style: italic;
-}
+
 .visionGrid {
   display: grid;
   grid-template-columns: 0.72fr 1.28fr;

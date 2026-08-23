@@ -20,7 +20,6 @@ export default async function HomePage() {
         <div className="rays" />
         <div className="wrap heroGrid heroSplit">
           <div className="heroCopy">
-            <p className="eyebrow">להיזכר • להתחבר • להאיר</p>
             <h1 className="heroStatement">
               <span className="line1">המרכז להפצת אור עוזר לאנשים</span>
               <span className="line2">להיזכר מי הם, להתחבר לעצמם</span>
@@ -139,8 +138,10 @@ export default async function HomePage() {
         <div className="glow" />
         <div className="wrap contactGrid">
           <div>
+            {/* The space before the break matters: the break is hidden on
+                tablet, where the heading has to run as one line. */}
             <h2>
-              אולי זה הרגע
+              אולי זה הרגע{' '}
               <br />
               שלכם <span>להאיר.</span>
             </h2>

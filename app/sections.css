@@ -697,6 +697,13 @@
     margin-inline: auto;
   }
 
+  /* `.lead` brings a 590px cap from the design; without an auto margin that box
+     pins to the start edge, so the text centred inside a box that did not. */
+  .visionText p.lead,
+  .visionText p {
+    margin-inline: auto;
+  }
+
   .heroActions,
   .visionActions,
   .podBtns,
@@ -763,5 +770,75 @@
   .quoteWall ul {
     display: inline-grid;
     text-align: start;
+  }
+}
+
+/* ==========================================================================
+   Mobile (≤600px)
+   ========================================================================== */
+@media (width<=600px) {
+  /* All four lines of the banner sentence carry the same size and the same
+     gap, so it reads as one evenly-set block. */
+  .heroCopy {
+    --hero-size: 22px;
+  }
+  .hero h1.heroStatement {
+    gap: 12px;
+  }
+  .heroStatement .line1 {
+    font-size: 1em;
+  }
+  .heroStatement .line3 {
+    margin-top: 0;
+  }
+  .heroSub {
+    font-size: var(--hero-size);
+    line-height: 1.26;
+    margin-top: 12px;
+  }
+}
+
+/* ==========================================================================
+   Tablet corrections (≤900px)
+   ========================================================================== */
+@media (width<=900px) {
+  /* The contact block centres with the rest of the page; only the form keeps
+     its own alignment. */
+  .contactGrid,
+  .contactGrid > div,
+  .contact h2,
+  .contact p {
+    text-align: center;
+  }
+  .contactGrid > div {
+    justify-items: center;
+  }
+  .contact p,
+  .contact .phone {
+    margin-inline: auto;
+  }
+  /* One line: the authored break is dropped and the size capped to fit. */
+  .contact h2 br {
+    display: none;
+  }
+  .contact h2 {
+    font-size: min(6.5vw, 52px) !important;
+    white-space: nowrap;
+  }
+  .contact form {
+    text-align: start;
+  }
+  .contact form label,
+  .contact form small {
+    text-align: start;
+  }
+
+  /* Social links stay against the start edge rather than centring. */
+  .socialRow,
+  .footerGrid .socialRow {
+    align-items: flex-start;
+  }
+  .socialRow a {
+    justify-content: flex-start;
   }
 }

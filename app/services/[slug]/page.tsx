@@ -6,7 +6,15 @@ import { notFound } from 'next/navigation';
 import LeadForm from '@/components/LeadForm';
 import PageHead from '@/components/PageHead';
 import { contact } from '@/lib/site';
-import { getService, getServices, resolveMedia } from '@/lib/vision-os/server';
+import { formatPrice } from '@/lib/format';
+import {
+  getCourses,
+  getProducts,
+  getService,
+  getServices,
+  resolveMedia,
+  resolveMediaMap,
+} from '@/lib/vision-os/server';
 
 export const revalidate = 60;
 
@@ -36,6 +44,20 @@ export default async function ServicePage({ params }: Params) {
   if (!service) notFound();
 
   const img = await resolveMedia(service.image, service.title);
+
+  // Two cubes list other collections rather than standing on their own.
+  const courses = slug === 'courses' || slug === 'workshops' ? await getCourses() : [];
+  const products = slug === 'shop' ? await getProducts() : [];
+  const listMedia = await resolveMediaMap([
+    ...courses.map((c) => c.image),
+    ...products.map((p) => p.image),
+  ]);
+
+  // The courses cube shows courses; the workshops cube shows workshops/retreats.
+  const shownCourses =
+    slug === 'workshops'
+      ? courses.filter((c) => c.event_type === 'סדנה' || c.event_type === 'ריטריט')
+      : courses.filter((c) => c.event_type === 'קורס');
 
   return (
     <>
@@ -71,6 +93,92 @@ export default async function ServicePage({ params }: Params) {
                 <p>{service.description}</p>
               </div>
             )}
+
+            {shownCourses.length > 0 ? (
+              <div className="courseCards" style={{ marginTop: 50 }}>
+                {shownCourses.map((course) => {
+                  const cImg = course.image ? listMedia.get(course.image) : null;
+                  const price = formatPrice(course.price);
+                  return (
+                    <article key={course.id} className="courseCard">
+                      {cImg ? (
+                        <Link href={`/courses/${course.slug}`} className="courseCardMedia">
+                          <Image
+                            src={cImg.url}
+                            alt={cImg.alt || course.title}
+                            width={cImg.width ?? 1200}
+                            height={cImg.height ?? 675}
+                            sizes="(max-width: 700px) 100vw, 340px"
+                          />
+                        </Link>
+                      ) : null}
+                      <div className="courseCardBody">
+                        <div className="courseBadges">
+                          {course.date_label ? (
+                            <span className="badge dateBadge">{course.date_label}</span>
+                          ) : null}
+                          {course.event_type ? (
+                            <span className="badge">{course.event_type}</span>
+                          ) : null}
+                          {course.sessions ? <span className="badge">{course.sessions}</span> : null}
+                        </div>
+                        <h3>{course.title}</h3>
+                        {course.summary ? <p>{course.summary}</p> : null}
+                        <div className="courseCardFoot">
+                          <span className="price">{price ?? 'לפרטים'}</span>
+                          <Link className="go" href={`/courses/${course.slug}`}>
+                            לפרטים והרשמה <span aria-hidden="true">←</span>
+                          </Link>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : null}
+
+            {products.length > 0 ? (
+              <div className="productGrid" style={{ marginTop: 50 }}>
+                {products.map((product) => {
+                  const pImg = product.image ? listMedia.get(product.image) : null;
+                  const price = formatPrice(product.price);
+                  return (
+                    <article key={product.id} className="productCard">
+                      {pImg ? (
+                        <div className="productMedia">
+                          <Image
+                            src={pImg.url}
+                            alt={pImg.alt || product.title}
+                            width={pImg.width ?? 800}
+                            height={pImg.height ?? 600}
+                            sizes="(max-width: 700px) 100vw, 280px"
+                          />
+                        </div>
+                      ) : (
+                        <div className="mark" aria-hidden="true">
+                          ✦
+                        </div>
+                      )}
+                      <h3>{product.title}</h3>
+                      {product.description ? <p>{product.description}</p> : null}
+                      <div className="foot">
+                        <span className="price">{price ?? 'לפרטים'}</span>
+                        <a
+                          className="buyLink"
+                          href={`${contact.whatsapp}&text=${encodeURIComponent(
+                            `היי, אני מעוניין/ת ב${product.title}`,
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          לרכישה <span aria-hidden="true">←</span>
+                        </a>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : null}
           </div>
 
           <aside className="detailAside">
@@ -118,6 +226,8 @@ function interestFor(slug: string): string {
       return 'טיפול אישי';
     case 'courses':
       return 'קורסים';
+    case 'shop':
+      return 'מוצרים';
     default:
       return '';
   }

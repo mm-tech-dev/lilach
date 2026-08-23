@@ -2,21 +2,56 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 
 import CtaStrip from '@/components/CtaStrip';
+import LilachBio from '@/components/LilachBio';
 import PageHead from '@/components/PageHead';
 import { site } from '@/lib/site';
+import { getReviews } from '@/lib/vision-os/server';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'אודות',
+  title: 'להכיר את צוות המרכז',
   description:
-    'הסיפור של לילך הרשקוביץ — מטפלת ברובד התת מודע, מתקשרת ומורה לתקשור פרקטי, ומנהלת המרכז להפצת אור. וגם: הצוות שמלווה אתכם.',
+    'לילך הרשקוביץ, אסף הרשקוביץ וגילי כץ — הצוות של המרכז להפצת אור, ומה מספרים בוגרי הקורסים.',
   alternates: { canonical: '/about' },
 };
 
-/** Team members as published on spreadthelight.co.il. */
-const team = [
+const LILACH_HE = [
+  'לילך הרשקוביץ, נשואה לאסף ואמא למיכאלה ואופיר. עומדת בראש מרכז מ.ל.א (המרכז להפצת אור), מייסדת שיטת ח.מ.ל.ה (חיבור מעשי לאור הנשמה), מורה לתקשור ומטפלת ברובד תת המודע.',
+  'כבר מגיל צעיר הרגשתי שיש הרבה מעבר ליכולת לחוות את החיים במלואם רק דרך חמשת החושים, אבל רק מאוחר יותר התחלתי להעמיק בעולם הרוח. למדתי רייקי, הילינג וטארוט, והרחבתי את הידע התיאורטי והמעשי במקביל לעבודתי בתחום הרכש והקניינות — הייתי מנהלת יבוא בחברות גדולות מאוד.',
+  'אהבתי מאוד את העיסוק שלי, אבל בפנים הרגשתי חוסר שקט. משהו חסר לי מאוד ולא הצלחתי להבין מה. לא ידעתי להגיד למה אני מרגישה שאני לא מגשימה את עצמי. השאלות האלה הלכו והתעצמו, וידעתי שאני צריכה לעשות משהו אחר — למרות שעוד לא הייתה לי תשובה ברורה.',
+  'אחרי הלידה של הבן השני שלי הבעבוע הפנימי הלך וגדל, ולמרות שמאוד אהבתי את העיסוק שלי הקריאה הפנימית הלכה והתגברה עד שהבנתי שאני צריכה לעשות משהו אחר. התשובה לשאלה הגיעה לאחר צפייה בתוכנית אירוח שבה התארחה נירית שפירא — מנטורית בכירה לריפוי, מטפלת בשיטה שנקראת ״איזון חיים״. כשראיתי אותה מדגימה עבודה עם שריר הגוף דרך היד (קינסיולוגיה) הבנתי שמצאתי את מה שהיה חסר לי: הפן הפרקטי שמקשר את התחושות למשהו פיזי ומוחשי שניתן להרגיש.',
+  'ביקשתי לחוות את הטיפול באופן אישי ונדהמתי מהדיוק הגבוה של אותה שיטה, לגלות דרך היד את אותם מקומות ואותן נקודות שדרשו אצלי ריפוי. היכולת לגלות דרך הזיכרון של הגוף את הפתרון המתבקש — ולא כזה שסופק על ידי המטפלת אלא על ידי — גרמה לי להבין שישנה דרך שמחברת בין גוף לנשמה, בין חומר לרוח, ודרכה ניתן לפרש גם את התוכנית הנשמתית שאיתה ירדנו לכאן.',
+  'בעקבות הטיפול קיבלתי שתי החלטות חשובות: הלכתי ללמוד את השיטה והתפטרתי מהעבודה. למרות אי־ודאות כלכלית באותה תקופה הייתי נחושה לצאת לדרך חדשה של טיפול וייעוץ, ואני עוסקת בכך למעלה מ־12 שנים, כשמאחורי אלפי שעות טיפול ומאות מטופלים.',
+  'בשנים האחרונות אני מרגישה רצון עז להעביר את הידע שרכשתי דרך שיטה שפיתחתי לעבודה עם תת המודע, המאפשרת דרך תשאול להגיע לשורש או למקור הבעיה ולטפל בה. היתרון של השיטה הוא ביכולת להגיע תוך זמן קצר יחסית למה שמעכב אותנו, ולעבוד על כך באופן ממוקד ומדויק, במקום טיפול שנמשך שנים.',
+  'אני מגשימה את עצמי דרך הטיפולים, הסדנאות והקורסים, ועוזרת לאנשים להתחבר למי שהם ולהגשים את עצמם. זה שווה הכול מבחינתי, ואני בהוקרת תודה ענקית על כך ועל השליחות שלקחתי על עצמי בחיים האלה.',
+];
+
+const LILACH_EN = [
+  'Lilah Hershkovitz is married to Asaf and mother of Michaela and Ofir. She heads the Spread the Light centre, founded the H.M.L.A method (a practical connection to the light of the soul), teaches channelling and works as a subconscious therapist.',
+  'Since I was young, I knew that there is something far greater than the way we perceive the world through our five senses. Eighteen years ago I began my spiritual journey, taking courses in tarot reading and Reiki, and using what I learned to advise and treat people alongside a career that had nothing to do with the spiritual world — I worked as an import manager for a large Israeli company.',
+  'Although I had a stable job, I felt an inner calling growing stronger to change direction.',
+  "One day I came across a treatment method called 'Life Alignment' on a TV show, and I immediately knew this was the method I wanted to learn in order to help and heal others. It allowed me to connect the spiritual aspect with the practical, physical side.",
+  "I went for a treatment to experience the method myself, and I was amazed at the simplicity and precision with which the physical body can provide so much accurate information about suppressed events, traumas, emotional states and energetic blockages. It was remarkable how the soul's journey could be decoded within the body.",
+  'Following that treatment I began studying the method, and decided to leave my job despite the risk involved. But when the steps you take are right and aligned, the universe supports the process.',
+  'One case that stands out, and that opened the way for me, was a friend suffering from a serious illness who was not working, which had led her into debt and financial crisis. I began questioning her body about the blockages preventing her from experiencing abundance, and then worked to open her channels of prosperity. Her medical condition improved, she returned to work, became financially independent, and her relationships improved significantly.',
+  'That case made me realise I had found the right method. Since then I have been practising therapy and teaching courses, guiding those who come to me and are ready to receive tools to heal themselves and others, and to take responsibility for their own lives.',
+  'I am not the solution; I help people remember their power to solve every problem on their own. Today I reach a wider audience out of a sense of mission and a desire to share this knowledge as widely as I can.',
+];
+
+const LILACH_GALLERY = [
+  { src: '/lilach-portrait-outdoor.webp', alt: 'לילך הרשקוביץ יושבת בטבע' },
+  { src: '/press-magie-de-la-guerison.webp', alt: 'כתבה בצרפתית על לילך הרשקוביץ' },
+  { src: '/lilach-headshot.webp', alt: 'פורטרט של לילך הרשקוביץ' },
+  { src: '/lilach-crater.webp', alt: 'לילך הרשקוביץ פורשת ידיים על רקע מכתש במדבר' },
+  { src: '/book-haemet-hapshuta.webp', alt: 'כריכת הקורס הדיגיטלי האמת הפשוטה' },
+];
+
+const TEAM = [
   {
     name: 'אסף הרשקוביץ',
     role: 'רייקי מאסטר ומטפל',
+    photo: { src: '/asaf-treating.webp', alt: 'אסף הרשקוביץ בטיפול' },
     paragraphs: [
       'ההיכרות הראשונית שלי עם עולם הרוח החלה בגיל מוקדם יחסית, כשהתחלתי לחוות חוויות שונות באופן אינטואיטיבי: ידעתי להגיד במדויק אילו מספרים יצאו בהטלת קובייה מספר פעמים ברציפות, מתי אגיע ליעד מסוים בדיוק של שניות, ואפילו חלמתי חלומות שאפשר להגדיר כחלומות נבואיים.',
       'הקפיצה המשמעותית הבאה שעשיתי קרתה כשהלכתי ללמוד קורס רייקי. די מהר התחברתי לעולם המדהים של אנרגיות ותדרים. הוקסמתי מהיכולת להרגיש אנרגיה בתוכי ולתעל אותה דרכי לאחרים, וברוב המקרים ניתן היה לראות שיפור פיזי מהיר ומשמעותי.',
@@ -25,21 +60,26 @@ const team = [
     ],
   },
   {
-    name: 'אורית ידעי',
-    role: 'מטפלת בשיטת ח.מ.ל.ה מטעם המרכז',
+    name: 'גילי כץ',
+    role: 'מטפלת במרכז להפצת אור',
+    photo: { src: '/gili-katz.webp', alt: 'גילי כץ, מטפלת במרכז להפצת אור' },
+    // Placeholder text, to be replaced with Gili's own words.
     paragraphs: [
-      'אמא לקסם, בוגרת קורס תקשור וקורס הכשרת מטפלים, וכיום מטפלת מטעם המרכז בשיטת ח.מ.ל.ה.',
-      '״למדתי תקשור אצל לילך, עברתי טרנספורמציה בחיים והחזרתי לעצמי את המושכות. הבנתי שאני הסמכות הבלעדית בחיי ואני יכולה לחלום ולהגשים. אני בן אדם של אנשים ומאמינה שכולנו נולדנו כדי להגשים את ייעודנו, כאשר הדרך מתבהרת להולכים בה.״',
+      'אודות זמניים על גילי.',
+      'גילי כץ היא מטפלת מטעם המרכז להפצת אור, ומלווה מטופלים ומטופלות בתהליכים אישיים של חיבור, בהירות וריפוי.',
+      'הטקסט המלא יעודכן בקרוב.',
     ],
   },
-] as const;
+];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const reviews = await getReviews();
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: site.owner,
-    jobTitle: 'מטפלת ברובד התת מודע, מתקשרת ומורה לתקשור פרקטי',
+    jobTitle: 'מטפלת ברובד תת המודע, מתקשרת ומורה לתקשור פרקטי',
     worksFor: { '@type': 'Organization', name: site.name, url: site.url },
   };
 
@@ -51,118 +91,74 @@ export default function AboutPage() {
       />
 
       <PageHead
-        crumbs={[{ label: 'אודות' }]}
-        title="שלום, אני"
-        accent="לילך."
-        lead="מטפלת ברובד התת מודע, מתקשרת, מורה לתקשור פרקטי, מרצה טיפולית ומנהלת את המרכז להפצת אור."
+        crumbs={[{ label: 'להכיר את צוות המרכז' }]}
+        title="להכיר את"
+        accent="צוות המרכז."
+        lead="מאחורי כל תהליך עומדים אנשים. אלה האנשים שמלווים אתכם במרכז להפצת אור."
       />
 
-      <section className="about section wrap" style={{ paddingTop: 56 }}>
-        <div className="aboutGrid">
-          <div className="aboutIntro">
-            <div className="aboutPhoto lilachPortrait">
+      {/* ---------------------------------------------------------- לילך --- */}
+      <section className="section wrap" style={{ paddingTop: 56 }}>
+        <div className="bioGrid">
+          <div className="bioMedia">
+            <div className="bioMainPhoto">
               <Image
-                src="/lilach-portrait.webp"
-                alt={site.owner}
-                width={1600}
-                height={1200}
+                src="/lilach-portrait-outdoor.webp"
+                alt="לילך הרשקוביץ"
+                width={900}
+                height={900}
                 priority
-                sizes="(max-width: 900px) 90vw, 520px"
+                sizes="(max-width: 900px) 90vw, 420px"
               />
-              <span className="portraitLabel">
-                {site.owner}
-                <br />
-                <small>מייסדת המרכז להפצת אור</small>
-              </span>
+            </div>
+            <div className="bioThumbs">
+              {LILACH_GALLERY.slice(1).map((img) => (
+                <div key={img.src} className="bioThumb">
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={600}
+                    height={600}
+                    sizes="(max-width: 900px) 40vw, 200px"
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="aboutText">
-            <p className="large">אני לילך הרשקוביץ, נשואה לאסף ואמא למיכאלה ולאופיר.</p>
-            <p>
-              לפני כמעט 18 שנים התחלתי את דרכי הרוחנית ולמדתי רייקי, הילינג, תקשור וטארוט ועוד כל
-              מיני קורסים רוחניים — כי תמיד ידעתי שמה שאני חווה בחמשת החושים שלי זה לא כל חוויית
-              החיים עצמה. ידעתי שיש מעבר, ושבטוח לא הכול כל כך מסובך כמו שנדמה לנו.
+          <div>
+            <h2 className="bioName">
+              לילך <span>הרשקוביץ.</span>
+            </h2>
+            <p className="bioRole">
+              עומדת בראש מרכז מ.ל.א • מייסדת שיטת ח.מ.ל.ה • מורה לתקשור ומטפלת ברובד תת המודע
             </p>
-            <p>
-              עבדתי שנים בתחום הרכש, הייבוא והקניינות. הייתי קניינית ומנהלת ייבוא בחברות מאוד גדולות.
-              אהבתי מאוד את העיסוק שלי, אבל תמיד הרגשתי שמשהו חסר לי — משהו כל הזמן הציק לי וכל הזמן
-              ניסיתי להבין מה לא שקט בי. למה, למרות שאני נמצאת במקום טוב בחיים שלי, אני לא מרגישה
-              שאני מגשימה את עצמי?
-            </p>
+            <LilachBio he={LILACH_HE} en={LILACH_EN} />
           </div>
-        </div>
-
-        <div className="prose storyBody">
-          <h3>הסיפור שלי</h3>
-          <p>
-            אחרי הלידה של הבן השני שלי הבעבוע הפנימי הלך וגדל, ולמרות שמאוד אהבתי את העיסוק שלי
-            הקריאה הפנימית הלכה והתגברה — עד שהבנתי שאני צריכה לעשות משהו אחר.
-          </p>
-          <p>
-            בוקר אחד ראיתי את תוכנית האירוח של אורנה דץ. היא אירחה את מי שלאחר זמן מה תהיה המורה
-            שלי, את נירית שפירא. נירית הסבירה על שיטת איזון חיים, בדקה על היד של אורנה דץ כל מיני
-            דברים, ובאותו רגע הרגשתי שאני מתמגנטת לשיטה הזו — כי עם כל הקורסים הרוחניים שלמדתי היה
-            חסר לי הפן הפרקטי, הארצי, שמקשר את התחושות למשהו פיזי מוחשי. והנה מולי עומדת אישה שבודקת
-            תשובות על היד. פניתי אליה מיד.
-          </p>
-          <p>
-            החלום שלי היה לעסוק במשהו שאני שלמה איתו, שנותן ערך לאנשים אחרים, שמצליח להשפיע וגם
-            להצליח לפרנס את הבית ולהיות מאושרת. קבעתי די מהר טיפול ראשון אצל נירית, ומהטיפול הזה
-            החיים שלי התחילו להשתנות. כן, מהטיפול הראשון.
-          </p>
-          <p>
-            נירית החזיקה כל מיני גליונות עם רשימות של רגשות ונקודות גוף מדויקות, והיד שלי היא זו
-            שהנחתה את נירית באילו נקודות גוף לגעת, איפה למקם כרטיסים ואילו רגשות דורשים טיפול. הגוף
-            שלי ידע להנחות את נירית בצורה מאוד מדויקת איך להתחיל לפתור לי את הבעיה שלי. שמחתי כל כך
-            שהגעתי לטיפול שבו לא המטפל נותן את הפתרון, אלא הוא שואב ממני את המידע בצורה כל כך מדויקת
-            דרך הגוף שלי — אותו גוף שמלווה אותי וזוכר הכול לפרטי פרטים, כולל כל מה שהדחקתי או מזמן
-            עבר למאגרי זיכרון אבודים.
-          </p>
-          <p>
-            באותו טיפול הבנתי שיש מה שמגשר בין החומר לרוח, בין הנשמה לגוף. יש איך לפרש את הנשמה ואת
-            כל התוכנית הנשמתית שלנו בחיים האלו. יש בעצם ספר עם תוכנית הפעלה, כמו שיש לכל מכשיר חשמל —
-            רק צריך ללמוד את השפה הספציפית שלנו.
-          </p>
-          <p>
-            די מהר הלכתי ללמוד את שיטת הטיפול הזו, הנקראת איזון חיים, אותה הביא לעולם ד״ר ג׳ף לוין.
-            אחרי הטיפול הראשון שחוויתי הודעתי על התפטרות מהעבודה, למרות שהייתי מפרנסת ראשית בבית ועם
-            שני ילדים קטנים. בן הזוג שלי הרוויח בזמנו משכורת נמוכה מאוד ולא היה לנו מושג איך נסתדר.
-            התפטרתי, ודי בסמוך להתפטרות שלי אסף, בן זוגי, קיבל הצעת עבודה מפתה והרבה יותר טובה
-            מהעבודה שהייתה לו. כך ידעתי שהיקום תומך ומלווה אותי בהחלטה שלי לצאת לדרך חדשה של טיפול
-            וייעוץ. מאז כבר עברו 12 שנים.
-          </p>
-          <p>
-            היום הקליניקה מלאה חודשים קדימה, יש רשימת המתנה ארוכה, הפכנו למרכז ואנחנו כבר צוות. אני
-            מלמדת, מרצה ומטפלת, ואין רגע ללא עשייה משמעותית.
-          </p>
-          <p>
-            אני מגשימה את עצמי, ודרך הטיפולים אני עוזרת לאנשים להתחבר למי שהם ולהגשים את עצמם. זה
-            שווה הכול מבחינתי.
-          </p>
-          <p>
-            התחושה הזו — שחיים של אדם משתנים, נפתחים ומשתדרגים בזכות התשאול, הליווי והטיפול — הבהירה
-            לי שאני ממשיכה לפתח את הדבר הזה לרמות שיהיה אפשר להבין את הדברים כמה שיותר מהר, ולא
-            לעבור שנים של בדיקות וטיפולים כדי לפתור את הצרות של עצמנו.
-          </p>
-          <p>
-            ברגע שמבינים סיבה שורשית של חסימה בחיים, הפתרון והטיפול בה הם כבר ממש קלים. ועם הקלות
-            הזו אני ממשיכה לזרום בחיים שלי, בהודיה על כל מה שהוביל אותי לזה.
-          </p>
         </div>
       </section>
 
+      {/* ---------------------------------------------------------- צוות --- */}
       <section className="section wrap" style={{ paddingTop: 0 }}>
         <div className="sectionHead">
           <h2>
-            היכרות עם <span>הצוות.</span>
+            הצוות <span>שלנו.</span>
           </h2>
           <p>מטפלים שהוכשרו בשיטות המרכז ומלווים אתכם לאורך הדרך.</p>
         </div>
 
         <div className="teamGrid">
-          {team.map((member) => (
+          {TEAM.map((member) => (
             <article key={member.name} className="teamCard">
+              <div className="teamPhoto">
+                <Image
+                  src={member.photo.src}
+                  alt={member.photo.alt}
+                  width={800}
+                  height={800}
+                  sizes="(max-width: 700px) 90vw, 380px"
+                />
+              </div>
               <h3>{member.name}</h3>
               <p className="role">{member.role}</p>
               {member.paragraphs.map((text, i) => (
@@ -170,6 +166,39 @@ export default function AboutPage() {
               ))}
             </article>
           ))}
+        </div>
+      </section>
+
+      {/* -------------------------------------------------- מה אומרים --- */}
+      <section id="testimonials" className="stories section">
+        <div className="wrap">
+          <div className="storyTitle">
+            <h2>
+              מה אומרים
+              <br />
+              <span>עלינו?</span>
+            </h2>
+            <div className="quoteMark">״</div>
+          </div>
+
+          {reviews.length === 0 ? (
+            <p className="emptyState">ההמלצות יעלו לאתר בקרוב.</p>
+          ) : (
+            <div className="reviewColumns">
+              {reviews.map((review) => (
+                <article key={review.id}>
+                  <div className="stars" aria-label={`דירוג ${review.rating ?? 5} מתוך 5`}>
+                    ✦ ✦ ✦ ✦ ✦
+                  </div>
+                  <blockquote dangerouslySetInnerHTML={{ __html: review.body ?? '' }} />
+                  <div className="person">
+                    <span>{review.initial ?? review.author_name.charAt(0)}</span>
+                    <strong>{review.author_name}</strong>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

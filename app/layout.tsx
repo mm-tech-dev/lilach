@@ -9,6 +9,7 @@ import { site } from '@/lib/site';
 
 import './globals.css';
 import './additions.css';
+import './sections.css';
 
 const assistant = Assistant({
   subsets: ['hebrew', 'latin'],
@@ -66,8 +67,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           דלג לתוכן
         </a>
         <main dir="rtl">
-          <Topline />
+          {/* The course ticker sits under the main menu, not above it. */}
           <Header />
+          <Topline />
           <div id="main">{children}</div>
           <Footer />
         </main>

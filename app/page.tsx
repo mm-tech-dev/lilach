@@ -3,17 +3,14 @@ import Link from 'next/link';
 
 import LeadForm from '@/components/LeadForm';
 import ServiceIcon from '@/components/ServiceIcon';
-import { contact, podcast, site } from '@/lib/site';
-import { getCourses, getFeaturedReviews, getServices } from '@/lib/vision-os/server';
+import VideoCard from '@/components/VideoCard';
+import { contact, homeVideos, site, vision } from '@/lib/site';
+import { getFeaturedReviews, getServices } from '@/lib/vision-os/server';
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [services, courses, reviews] = await Promise.all([
-    getServices(),
-    getCourses(),
-    getFeaturedReviews(3),
-  ]);
+  const [services, reviews] = await Promise.all([getServices(), getFeaturedReviews(2)]);
 
   return (
     <>
@@ -25,21 +22,14 @@ export default async function HomePage() {
         <div className="wrap heroGrid">
           <div className="heroCopy">
             <p className="eyebrow">להיזכר • להתחבר • להאיר</p>
-            <h1>
-              האור שאתם
+            <h1 className="heroStatement">
+              המרכז להפצת אור עוזר לאנשים להיזכר מי הם, להתחבר לעצמם
               <br />
-              מחפשים <em>כבר בכם.</em>
+              <em>ולחיות מתוך חיבור פנימי</em>, באמצעות תהליכים רגשיים, אנרגטיים ותודעתיים.
             </h1>
-            <p className="lead">
-              המרכז להפצת אור עוזר לאנשים להיזכר מי הם, להתחבר לעצמם ולחיות מתוך חיבור פנימי —
-              באמצעות תהליכים רגשיים, אנרגטיים ותודעתיים.
-            </p>
             <div className="heroActions">
-              <Link className="primary" href="/courses">
+              <Link className="primary" href="/services/courses">
                 לגלות את הקורסים{' '}
-              </Link>
-              <Link className="textLink" href="/services">
-                לשירותי המרכז <span>←</span>
               </Link>
             </div>
           </div>
@@ -67,48 +57,94 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        <Link className="scrollHint" href="#about">
+        <Link className="scrollHint" href="#vision">
           גלו עוד <span>↓</span>
         </Link>
       </section>
 
-      {/* --------------------------------------------------------- about --- */}
-      <section id="about" className="about section wrap">
+      {/* -------------------------------------------------------- vision --- */}
+      <section id="vision" className="about section wrap">
         <div className="aboutGrid">
           <div className="aboutIntro">
             <h2>
-              שלום,
+              {vision.title}
               <br />
-              אני <span>לילך.</span>
+              <span>{vision.accent}</span>
             </h2>
-            <div className="aboutPhoto lilachPortrait">
+            <div className="aboutPhoto visionLogo">
               <Image
-                src="/lilach-portrait.webp"
-                alt={site.owner}
-                width={1600}
-                height={1200}
-                sizes="(max-width: 900px) 90vw, 520px"
+                src="/logo.jpg"
+                alt={`לוגו ${site.name}`}
+                width={512}
+                height={512}
+                sizes="(max-width: 900px) 60vw, 340px"
               />
-              <span className="portraitLabel">
-                {site.owner}
-                <br />
-                <small>מייסדת המרכז להפצת אור</small>
-              </span>
             </div>
           </div>
+
           <div className="aboutText">
-            <p className="large">אני לילך הרשקוביץ, נשואה לאסף ואמא למיכאלה ולאופיר.</p>
+            {vision.paragraphs.map((text, i) => (
+              <p key={i} className={i === 0 ? 'large' : undefined}>
+                {text}
+              </p>
+            ))}
+            <div className="heroActions visionActions">
+              <Link className="primary" href="/services">
+                לגלות מה מתאים לי{' '}
+              </Link>
+              <Link className="outline" href="/about">
+                להכיר את המרכז
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------- press + stories --- */}
+      <section id="stories" className="stories section">
+        <div className="wrap">
+          <div className="sectionHead">
+            <h2>
+              מספרים עלינו,
+              <br />
+              ומספרים <span>עלינו.</span>
+            </h2>
             <p>
-              לפני כמעט 18 שנים התחלתי ללמוד רייקי, הילינג, תקשור, טארוט וקורסים רוחניים נוספים — כי
-              תמיד ידעתי שמה שאנחנו חווים בחמשת החושים אינו כל חוויית החיים.
+              כתבות, ראיונות ועדויות מהשטח — לצד מה שכותבים לנו בוגרי הקורסים אחרי שהתהליך נגמר.
             </p>
-            <p>
-              ידעתי שיש מעבר, ושבטוח לא הכול כל כך מסובך כמו שנדמה לנו. מאז אני מלווה אנשים בדרך
-              חזרה פנימה, אל המקום שבו מתחילים הדיוק, השקט והאור.
-            </p>
-            <Link className="underLink" href="/about">
-              בואו נכיר לעומק{' '}
-            </Link>
+          </div>
+
+          <div className="pressGrid">
+            <div className="pressVideos">
+              {homeVideos.map((v) => (
+                <VideoCard
+                  key={v.key}
+                  type={v.type}
+                  id={'id' in v ? v.id : undefined}
+                  src={'src' in v ? v.src : undefined}
+                  title={v.title}
+                  caption={v.caption}
+                />
+              ))}
+              <Link className="underLink" href="/media">
+                לכל הכתבות והפודקאסטים{' '}
+              </Link>
+            </div>
+
+            <div className="pressQuotes">
+              {reviews.map((review) => (
+                <article key={review.id}>
+                  <div className="stars" aria-label={`דירוג ${review.rating ?? 5} מתוך 5`}>
+                    ✦ ✦ ✦ ✦ ✦
+                  </div>
+                  <blockquote dangerouslySetInnerHTML={{ __html: review.body ?? '' }} />
+                  <div className="person">
+                    <span>{review.initial ?? review.author_name.charAt(0)}</span>
+                    <strong>{review.author_name}</strong>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -128,20 +164,6 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="serviceMoment">
-            <Image
-              src="/lilach-lecture.jpg"
-              alt="לילך בהרצאה מול קהל"
-              width={1569}
-              height={1004}
-              sizes="100vw"
-            />
-            <div>
-              <span>מפגשים אמיתיים, חוויה מחברת</span>
-              <strong>ללמוד, להרגיש, להתחבר.</strong>
-            </div>
-          </div>
-
           <div className="serviceGrid">
             {services.map((service) => (
               <article key={service.id}>
@@ -153,107 +175,6 @@ export default async function HomePage() {
                 </Link>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------- courses --- */}
-      <section id="courses" className="courses section wrap">
-        <div className="sectionHead dark">
-          <h2>
-            קורסים, סדנאות
-            <br />
-            ורגעים של <span>פליאה.</span>
-          </h2>
-          <p>
-            מפגשים שמחברים בין גוף, נפש ורוח — עם ידע, תרגול וחוויה שאפשר לקחת אל החיים עצמם.
-          </p>
-        </div>
-
-        <div className="eventList">
-          {courses.map((course) => (
-            <Link key={course.id} href={`/courses/${course.slug}`}>
-              <span className="date">{course.date_label}</span>
-              <strong>{course.title}</strong>
-              <span className="eventType">{course.event_type}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------- stories --- */}
-      <section id="stories" className="stories section">
-        <div className="wrap">
-          <div className="storyTitle">
-            <h2>
-              מה מספרים
-              <br />
-              <span>בוגרי הקורס?</span>
-            </h2>
-            <div className="quoteMark">״</div>
-          </div>
-
-          <div className="testimonialGrid">
-            {reviews.map((review, i) => (
-              <article key={review.id} className={i === 1 ? 'lift' : ''}>
-                <div className="stars" aria-label={`דירוג ${review.rating ?? 5} מתוך 5`}>
-                  ✦ ✦ ✦ ✦ ✦
-                </div>
-                <blockquote
-                  className="clampQuote"
-                  dangerouslySetInnerHTML={{ __html: review.body ?? '' }}
-                />
-                <div className="person">
-                  <span>{review.initial ?? review.author_name.charAt(0)}</span>
-                  <strong>{review.author_name}</strong>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="storiesMore">
-            <Link className="underLink" href="/testimonials">
-              לקרוא את כל ההמלצות{' '}
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------- podcast --- */}
-      <section className="podcast wrap section">
-        <div className="podcastVisual">
-          <Image
-            src="/podcast-superlife.jpg"
-            alt="טיפול אישי מצולם עם לילך"
-            width={1024}
-            height={568}
-            sizes="(max-width: 900px) 100vw, 560px"
-          />
-          <a
-            className="play"
-            href={podcast.youtube}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="צפייה בפרק ביוטיוב"
-          >
-            ▶
-          </a>
-        </div>
-        <div className="podcastCopy">
-          <p className="mini">{podcast.eyebrow}</p>
-          <h2>
-            {podcast.title[0]}
-            <br />
-            {podcast.title[1]}
-          </h2>
-          <p>{podcast.body}</p>
-          <div className="podBtns">
-            <a className="primary" href={podcast.youtube} target="_blank" rel="noopener noreferrer">
-              לצפייה ביוטיוב{' '}
-            </a>
-            <a className="outline" href={podcast.spotify} target="_blank" rel="noopener noreferrer">
-              להאזנה בספוטיפיי
-            </a>
           </div>
         </div>
       </section>

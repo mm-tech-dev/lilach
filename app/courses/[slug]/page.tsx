@@ -7,7 +7,19 @@ import LeadForm from '@/components/LeadForm';
 import PageHead from '@/components/PageHead';
 import { contact, site } from '@/lib/site';
 import { formatCount, formatPrice } from '@/lib/format';
-import { getCourse, getCourses, resolveMedia } from '@/lib/vision-os/server';
+import { getCourse, getCourses, resolveMedia, resolveMediaMap } from '@/lib/vision-os/server';
+
+/** The CMS stores gallery values as a JSON array, sometimes still encoded. */
+function galleryIds(value: string[] | string | null | undefined): string[] {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.filter((v): v is string => typeof v === 'string');
+  try {
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.filter((v): v is string => typeof v === 'string') : [];
+  } catch {
+    return [];
+  }
+}
 
 export const revalidate = 60;
 
@@ -37,6 +49,9 @@ export default async function CoursePage({ params }: Params) {
   if (!course) notFound();
 
   const img = await resolveMedia(course.image, course.title);
+  // Extra photos, minus the one already shown as the lead image.
+  const extraIds = galleryIds(course.gallery).filter((id) => id !== course.image);
+  const extras = await resolveMediaMap(extraIds);
   const price = formatPrice(course.price);
   const deposit = formatPrice(course.deposit);
   const max = formatCount(course.max_participants);
@@ -97,6 +112,26 @@ export default async function CoursePage({ params }: Params) {
                   priority
                   sizes="(max-width: 900px) 100vw, 720px"
                 />
+              </div>
+            ) : null}
+
+            {extraIds.length > 0 ? (
+              <div className="courseGallery">
+                {extraIds.map((id) => {
+                  const g = extras.get(id);
+                  if (!g) return null;
+                  return (
+                    <div key={id}>
+                      <Image
+                        src={g.url}
+                        alt={g.alt || course.title}
+                        width={g.width ?? 900}
+                        height={g.height ?? 675}
+                        sizes="(max-width: 700px) 100vw, 340px"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             ) : null}
 

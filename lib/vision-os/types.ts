@@ -39,6 +39,8 @@ export interface CourseRow extends BaseRow {
   max_participants: CmsNumber;
   prerequisites: string | null;
   image: string | null;
+  /** Extra images; stored as a JSON array of media UUIDs. */
+  gallery: string[] | string | null;
   show_in_ticker: boolean | null;
   sort_order: CmsNumber;
   is_active: boolean | null;
@@ -76,7 +78,7 @@ export interface MediaRow {
   url?: string | null;
 }
 
-export type IconKey = 'lectures' | 'workshops' | 'therapy' | 'courses';
+export type IconKey = 'lectures' | 'workshops' | 'therapy' | 'courses' | 'shop';
 
 /** A media reference already resolved to a URL the browser can load. */
 export interface ResolvedImage {

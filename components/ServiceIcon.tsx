@@ -27,6 +27,12 @@ const paths: Record<IconKey, React.ReactNode> = {
       <path d="M24 14v25M14 18c3 0 5 .5 7 2M27 20c2-1.5 4-2 7-2" />
     </>
   ),
+  shop: (
+    <>
+      <path d="M11 16h26l-2.5 22a3 3 0 0 1-3 2.6H16.5a3 3 0 0 1-3-2.6L11 16Z" />
+      <path d="M18 16v-2a6 6 0 0 1 12 0v2" />
+    </>
+  ),
 };
 
 export default function ServiceIcon({ icon }: { icon: IconKey | null }) {

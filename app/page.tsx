@@ -2,15 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import LeadForm from '@/components/LeadForm';
-import ServiceIcon from '@/components/ServiceIcon';
-import VideoCard from '@/components/VideoCard';
+import VideoSlider from '@/components/VideoSlider';
 import { contact, homeVideos, site, vision } from '@/lib/site';
-import { getFeaturedReviews, getServices } from '@/lib/vision-os/server';
+import { getFeaturedReviews } from '@/lib/vision-os/server';
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [services, reviews] = await Promise.all([getServices(), getFeaturedReviews(2)]);
+  const reviews = await getFeaturedReviews(2);
 
   return (
     <>
@@ -19,19 +18,15 @@ export default async function HomePage() {
         <div className="orb orb1" />
         <div className="orb orb2" />
         <div className="rays" />
-        <div className="wrap heroGrid">
+        <div className="wrap heroGrid heroSplit">
           <div className="heroCopy">
             <p className="eyebrow">להיזכר • להתחבר • להאיר</p>
             <h1 className="heroStatement">
-              המרכז להפצת אור עוזר לאנשים להיזכר מי הם, להתחבר לעצמם
-              <br />
-              <em>ולחיות מתוך חיבור פנימי</em>, באמצעות תהליכים רגשיים, אנרגטיים ותודעתיים.
+              <span className="line1">המרכז להפצת אור עוזר לאנשים</span>
+              <span className="line2">להיזכר מי הם, להתחבר לעצמם</span>
+              <em className="line3">ולחיות מתוך חיבור פנימי</em>
             </h1>
-            <div className="heroActions">
-              <Link className="primary" href="/services/courses">
-                לגלות את הקורסים{' '}
-              </Link>
-            </div>
+            <p className="heroSub">באמצעות תהליכים רגשיים, אנרגטיים ותודעתיים.</p>
           </div>
 
           <div className="heroVisual" aria-label={site.owner}>
@@ -43,7 +38,7 @@ export default async function HomePage() {
                 width={1672}
                 height={941}
                 priority
-                sizes="(max-width: 900px) 90vw, 550px"
+                sizes="(max-width: 900px) 90vw, 50vw"
               />
               <span className="photoGlow">✦</span>
             </div>
@@ -63,32 +58,27 @@ export default async function HomePage() {
       </section>
 
       {/* -------------------------------------------------------- vision --- */}
-      <section id="vision" className="about section wrap">
-        <div className="aboutGrid">
-          <div className="aboutIntro">
-            <h2>
-              {vision.title}
-              <br />
-              <span>{vision.accent}</span>
-            </h2>
-            <div className="aboutPhoto visionLogo">
-              <Image
-                src="/logo.jpg"
-                alt={`לוגו ${site.name}`}
-                width={512}
-                height={512}
-                sizes="(max-width: 900px) 60vw, 340px"
-              />
-            </div>
+      <section id="vision" className="visionSection section wrap">
+        <h2 className="visionTitle">{vision.title} שלנו.</h2>
+
+        <div className="visionGrid">
+          <div className="visionLogo">
+            <Image
+              src="/logo.jpg"
+              alt={`לוגו ${site.name}`}
+              width={512}
+              height={512}
+              sizes="(max-width: 900px) 62vw, 430px"
+            />
           </div>
 
-          <div className="aboutText">
+          <div className="visionText">
             {vision.paragraphs.map((text, i) => (
-              <p key={i} className={i === 0 ? 'large' : undefined}>
+              <p key={i} className={i === 0 ? 'lead' : undefined}>
                 {text}
               </p>
             ))}
-            <div className="heroActions visionActions">
+            <div className="visionActions">
               <Link className="primary" href="/services">
                 לגלות מה מתאים לי{' '}
               </Link>
@@ -103,11 +93,9 @@ export default async function HomePage() {
       {/* ---------------------------------------------- press + stories --- */}
       <section id="stories" className="stories section">
         <div className="wrap">
-          <div className="sectionHead">
+          <div className="stackedHead">
             <h2>
-              מספרים עלינו,
-              <br />
-              ומספרים <span>עלינו.</span>
+              מספרים <span>עלינו.</span>
             </h2>
             <p>
               כתבות, ראיונות ועדויות מהשטח — לצד מה שכותבים לנו בוגרי הקורסים אחרי שהתהליך נגמר.
@@ -116,16 +104,7 @@ export default async function HomePage() {
 
           <div className="pressGrid">
             <div className="pressVideos">
-              {homeVideos.map((v) => (
-                <VideoCard
-                  key={v.key}
-                  type={v.type}
-                  id={'id' in v ? v.id : undefined}
-                  src={'src' in v ? v.src : undefined}
-                  title={v.title}
-                  caption={v.caption}
-                />
-              ))}
+              <VideoSlider slides={homeVideos.map((v) => ({ ...v }))} />
               <Link className="underLink" href="/media">
                 לכל הכתבות והפודקאסטים{' '}
               </Link>
@@ -145,36 +124,6 @@ export default async function HomePage() {
                 </article>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------ services --- */}
-      <section id="services" className="services section">
-        <div className="wrap">
-          <div className="sectionHead">
-            <h2>
-              כל דרך מתחילה
-              <br />
-              בנקודת <span>אור.</span>
-            </h2>
-            <p>
-              בחרו את המרחב שמתאים לכם עכשיו. בכל אחד מהם מחכה דרך מעשית, אנושית ומחוברת לפגוש את
-              עצמכם מחדש.
-            </p>
-          </div>
-
-          <div className="serviceGrid">
-            {services.map((service) => (
-              <article key={service.id}>
-                <ServiceIcon icon={service.icon_key} />
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-                <Link href={`/services/${service.slug}`} aria-label={`פרטים על ${service.title}`}>
-                  לפרטים{' '}
-                </Link>
-              </article>
-            ))}
           </div>
         </div>
       </section>

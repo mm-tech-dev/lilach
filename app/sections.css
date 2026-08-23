@@ -3,68 +3,256 @@
    block, the press/video strips, the team bios and the media page.
    ========================================================================== */
 
-/* --- hero statement ------------------------------------------------------ */
-/* The banner now carries a full sentence rather than a three-word headline,
-   so it needs a smaller size and a looser measure than `.hero h1`. */
-.hero h1.heroStatement {
-  font-size: 40px;
-  line-height: 1.32;
-  letter-spacing: -0.01em;
+/* --- header sizing ------------------------------------------------------- */
+/* Larger menu and ticker type, scaled down where the row would otherwise
+   outgrow the container. */
+/* Reaches the requested 30px on a full-width desktop and scales down from
+   there; the menu is replaced by the drawer below 900px anyway. */
+.nav nav {
+  font-size: clamp(18px, 2.1vw, 30px);
+  gap: clamp(14px, 1.6vw, 30px);
 }
-.hero h1.heroStatement em {
-  font-style: normal;
+.nav {
+  height: 104px;
 }
-/* Give the sentence more of the row than the three-word headline needed. */
-.hero .heroGrid:has(.heroStatement) {
-  grid-template-columns: 1.25fr 0.75fr;
-}
-@media (width<=1100px) {
-  .hero h1.heroStatement {
-    font-size: 34px;
-  }
-}
-@media (width<=900px) {
-  .hero .heroGrid:has(.heroStatement) {
-    grid-template-columns: 1fr;
-  }
-  .hero h1.heroStatement {
-    font-size: 34px;
-  }
+.topline {
+  height: 58px;
+  font-size: clamp(17px, 2.1vw, 30px);
 }
 @media (width<=600px) {
-  .hero h1.heroStatement {
-    font-size: 27px;
-    line-height: 1.38;
+  .topline {
+    height: 46px;
+    font-size: 17px;
+  }
+  .nav {
+    height: 82px;
   }
 }
 
-/* --- vision block -------------------------------------------------------- */
+/* --- hero ---------------------------------------------------------------- */
+/* An even split: half image, half words. */
+.hero .heroGrid.heroSplit {
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+}
+.hero h1.heroStatement {
+  display: grid;
+  gap: 2px;
+  font-size: clamp(27px, 2.95vw, 44px);
+  line-height: 1.26;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+/* Three staged lines rather than one uniform block, so the eye has a path. */
+.heroStatement .line1 {
+  font-size: 0.78em;
+  font-weight: 600;
+  color: var(--muted);
+}
+.heroStatement .line2 {
+  font-weight: 700;
+}
+.heroStatement .line3 {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--green);
+  margin-top: 6px;
+}
+.heroSub {
+  margin: 22px 0 0;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.8;
+  color: var(--muted);
+  max-width: 34ch;
+}
+/* The visual fills its half of the split rather than floating inside it. */
+.hero .heroSplit .heroVisual {
+  height: min(72vh, 620px);
+}
+.hero .heroSplit .heroPhoto {
+  width: 100%;
+  height: 100%;
+}
+.hero .heroSplit .imageHalo {
+  width: 100%;
+  height: 100%;
+}
+@media (width<=900px) {
+  .hero .heroGrid.heroSplit {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+  .hero .heroSplit .heroVisual {
+    height: 440px;
+  }
+  .heroSub {
+    max-width: none;
+  }
+}
+
+/* --- vision -------------------------------------------------------------- */
+.visionSection {
+  padding-top: 96px;
+}
+/* Title sits above everything, pinned to the physical left edge. */
+.visionTitle {
+  text-align: left;
+  font-size: clamp(40px, 5vw, 76px) !important;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 46px;
+  white-space: nowrap;
+}
+.visionGrid {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 70px;
+  align-items: center;
+}
 .visionLogo {
   display: grid;
   place-items: center;
-  background: radial-gradient(circle, #fff 0 58%, #fff9f000 78%);
-  height: auto;
   aspect-ratio: 1;
-  max-width: 340px;
+  max-width: 430px;
+  width: 100%;
   border-radius: 50%;
-  overflow: visible;
-  box-shadow: none;
+  background: radial-gradient(circle, #fff 0 58%, #fff9f000 78%);
 }
 .visionLogo img {
-  width: 78%;
-  height: 78%;
+  width: 88%;
+  height: 88%;
   object-fit: contain;
   border-radius: 50%;
-  box-shadow: 0 22px 55px #58426b1f;
+  box-shadow: 0 26px 60px #58426b24;
+}
+.visionText p {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.95;
+}
+.visionText p.lead {
+  color: var(--ink);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.8;
 }
 .visionActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
   margin-top: 30px;
 }
-@media (width<=600px) {
+@media (width<=900px) {
+  .visionGrid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    justify-items: center;
+  }
   .visionLogo {
-    max-width: 240px;
+    max-width: 300px;
+  }
+  .visionTitle {
+    text-align: center;
+  }
+}
+
+/* --- stacked section head ------------------------------------------------ */
+/* The default `.sectionHead` puts the blurb beside the title in a pale colour
+   meant for the dark band; here it belongs underneath, in readable ink. */
+.stackedHead {
+  margin: 48px 0 46px;
+  max-width: 760px;
+}
+.stackedHead h2 {
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+}
+.stackedHead h2 span {
+  color: var(--green);
+  font-style: italic;
+}
+.stackedHead p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.85;
+}
+@media (width<=600px) {
+  .stackedHead {
+    text-align: center;
     margin-inline: auto;
   }
+}
+
+/* --- video slider -------------------------------------------------------- */
+.videoSlider {
+  display: grid;
+  gap: 16px;
+}
+.videoTrack {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  border-radius: 24px;
+}
+.videoTrack::-webkit-scrollbar {
+  display: none;
+}
+.videoSlide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  min-width: 0;
+}
+.sliderControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.sliderControls > button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid #dccef4;
+  background: #fff;
+  color: var(--ink);
+  font-size: 17px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s, opacity 0.2s;
+}
+.sliderControls > button:hover:not(:disabled) {
+  background: var(--lilac);
+}
+.sliderControls > button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.sliderDots {
+  display: flex;
+  gap: 8px;
+}
+.sliderDots button {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #d8cae9;
+  cursor: pointer;
+  transition: width 0.2s, background 0.2s;
+}
+.sliderDots button.is-active {
+  width: 26px;
+  border-radius: 50px;
+  background: var(--ink);
 }
 
 /* --- press + stories strip ---------------------------------------------- */
@@ -79,6 +267,10 @@
 .pressVideos {
   display: grid;
   gap: 26px;
+  justify-items: stretch;
+}
+.pressVideos > .underLink {
+  justify-self: start;
 }
 .pressQuotes {
   display: grid;
@@ -399,4 +591,33 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* --- ticker -------------------------------------------------------------- */
+/* One item is rendered at a time (see components/Ticker.tsx), so the stacked
+   absolute positioning and staggered keyframes of the original are not used. */
+.topline .ticker .tickerItem {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  animation: none;
+  padding-inline: 20px;
+  text-align: center;
+}
+.topline .ticker .tickerItem.is-visible {
+  opacity: 0.94;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .topline .ticker .tickerItem {
+    opacity: 0.94;
+    transform: none;
+    transition: none;
+  }
 }

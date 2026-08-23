@@ -6,26 +6,24 @@
 /* --- header sizing ------------------------------------------------------- */
 /* Larger menu and ticker type, scaled down where the row would otherwise
    outgrow the container. */
-/* Reaches the requested 30px on a full-width desktop and scales down from
-   there; the menu is replaced by the drawer below 900px anyway. */
 .nav nav {
-  font-size: clamp(18px, 2.1vw, 30px);
-  gap: clamp(14px, 1.6vw, 30px);
+  font-size: 15px;
+  gap: 30px;
 }
 .nav {
-  height: 104px;
+  height: 96px;
 }
 .topline {
-  height: 58px;
-  font-size: clamp(17px, 2.1vw, 30px);
+  height: 44px;
+  font-size: 15px;
 }
 @media (width<=600px) {
   .topline {
-    height: 46px;
-    font-size: 17px;
+    height: 40px;
+    font-size: 14px;
   }
   .nav {
-    height: 82px;
+    height: 80px;
   }
 }
 
@@ -35,10 +33,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 56px;
 }
+.heroCopy {
+  /* Shared so the opening and closing lines stay in step. */
+  --hero-size: clamp(27px, 2.95vw, 44px);
+}
 .hero h1.heroStatement {
   display: grid;
   gap: 2px;
-  font-size: clamp(27px, 2.95vw, 44px);
+  font-size: var(--hero-size);
   line-height: 1.26;
   letter-spacing: -0.01em;
   margin: 0;
@@ -58,12 +60,14 @@
   color: var(--green);
   margin-top: 6px;
 }
+/* Matches `.line1`: same size, weight and colour, so the sentence reads as one
+   composition rather than a headline with a caption bolted on. */
 .heroSub {
-  margin: 22px 0 0;
-  font-size: clamp(15px, 1.15vw, 18px);
-  line-height: 1.8;
+  margin: 14px 0 0;
+  font-size: calc(var(--hero-size) * 0.78);
+  font-weight: 600;
+  line-height: 1.26;
   color: var(--muted);
-  max-width: 34ch;
 }
 /* The visual fills its half of the split rather than floating inside it. */
 .hero .heroSplit .heroVisual {
@@ -96,13 +100,17 @@
 }
 /* Title sits above everything, pinned to the physical left edge. */
 .visionTitle {
-  text-align: left;
+  text-align: right;
   font-size: clamp(40px, 5vw, 76px) !important;
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin: 0 0 46px;
   white-space: nowrap;
+}
+.visionTitle span {
+  color: var(--green);
+  font-style: italic;
 }
 .visionGrid {
   display: grid;
@@ -192,7 +200,9 @@
 /* --- video slider -------------------------------------------------------- */
 .videoSlider {
   display: grid;
+  grid-template-rows: 1fr auto;
   gap: 16px;
+  min-height: 0;
 }
 .videoTrack {
   display: flex;
@@ -200,6 +210,7 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   border-radius: 24px;
+  min-height: 0;
 }
 .videoTrack::-webkit-scrollbar {
   display: none;
@@ -208,6 +219,18 @@
   flex: 0 0 100%;
   scroll-snap-align: start;
   min-width: 0;
+  display: flex;
+}
+.videoSlide .videoCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+/* Fill the row rather than holding a fixed 16:9 box. */
+.pressGrid .videoSlide .videoFrame {
+  flex: 1;
+  aspect-ratio: auto;
+  min-height: 300px;
 }
 .sliderControls {
   display: flex;
@@ -260,14 +283,18 @@
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 46px;
-  align-items: start;
+  align-items: stretch;
   margin-top: 46px;
   direction: rtl;
 }
+/* The slider takes whatever height the quotes column ends up at, so the two
+   sides of the row finish level instead of the video stopping short. */
 .pressVideos {
   display: grid;
+  grid-template-rows: 1fr auto;
   gap: 26px;
   justify-items: stretch;
+  min-height: 0;
 }
 .pressVideos > .underLink {
   justify-self: start;

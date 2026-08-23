@@ -59,7 +59,9 @@ export default async function HomePage() {
 
       {/* -------------------------------------------------------- vision --- */}
       <section id="vision" className="visionSection section wrap">
-        <h2 className="visionTitle">{vision.title} שלנו.</h2>
+        <h2 className="visionTitle">
+          {vision.title} <span>{vision.accent}</span>
+        </h2>
 
         <div className="visionGrid">
           <div className="visionLogo">

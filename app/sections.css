@@ -825,13 +825,6 @@
     font-size: min(6.5vw, 52px) !important;
     white-space: nowrap;
   }
-  .contact form {
-    text-align: start;
-  }
-  .contact form label,
-  .contact form small {
-    text-align: start;
-  }
 
   /* Social links stay against the start edge rather than centring. */
   .socialRow,
@@ -840,5 +833,38 @@
   }
   .socialRow a {
     justify-content: flex-start;
+  }
+}
+
+/* The form keeps its own alignment on tablet only. Below 600px the design
+   centres every field, and this rule must not reach down into that range. */
+@media (601px<=width<=900px) {
+  .contact form,
+  .contact form label,
+  .contact form small {
+    text-align: start;
+  }
+}
+
+/* Mobile: centre the whole form, including the fields the design predates. */
+@media (width<=600px) {
+  .contact form,
+  .contact label,
+  .contact small {
+    text-align: center;
+  }
+  .contact input,
+  .contact select,
+  .contact textarea {
+    text-align: center;
+    text-align-last: center;
+  }
+  .contact input::placeholder,
+  .contact textarea::placeholder {
+    text-align: center;
+  }
+  .formSuccess,
+  .formError {
+    text-align: center;
   }
 }

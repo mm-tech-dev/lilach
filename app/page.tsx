@@ -39,7 +39,6 @@ export default async function HomePage() {
                 priority
                 sizes="(max-width: 900px) 90vw, 50vw"
               />
-              <span className="photoGlow">✦</span>
             </div>
             <div className="floatingCard">
               <span>✦</span>

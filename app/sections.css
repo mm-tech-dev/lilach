@@ -86,8 +86,21 @@
     grid-template-columns: 1fr;
     gap: 34px;
   }
+  /* Constrain and centre explicitly: the flex centring alone left the arch
+     sitting off to one side once the grid collapsed to a single column. */
   .hero .heroSplit .heroVisual {
     height: 440px;
+    width: 100%;
+    max-width: 540px;
+    margin-inline: auto;
+  }
+  .hero .heroSplit .heroPhoto {
+    width: 100%;
+    height: 100%;
+  }
+  .hero .heroSplit .floatingCard {
+    right: auto;
+    inset-inline-end: 10px;
   }
   .heroSub {
     max-width: none;
@@ -99,7 +112,10 @@
   padding-top: 96px;
 }
 /* Title sits above everything, pinned to the physical left edge. */
-.visionTitle {
+/* Shared by the vision title and the press title so the two read as one
+   family; changing the size here changes both. */
+.visionTitle,
+.stories .stackedHead h2 {
   text-align: right;
   font-size: clamp(40px, 5vw, 76px) !important;
   font-weight: 700;
@@ -108,7 +124,8 @@
   margin: 0 0 46px;
   white-space: nowrap;
 }
-.visionTitle span {
+.visionTitle span,
+.stories .stackedHead h2 span {
   color: var(--green);
   font-style: italic;
 }
@@ -173,16 +190,8 @@
   margin: 48px 0 46px;
   max-width: 760px;
 }
-.stackedHead h2 {
-  font-size: clamp(40px, 5vw, 72px);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin: 0 0 18px;
-}
-.stackedHead h2 span {
-  color: var(--green);
-  font-style: italic;
+.stories .stackedHead h2 {
+  margin-bottom: 18px;
 }
 .stackedHead p {
   margin: 0;
@@ -291,13 +300,14 @@
    sides of the row finish level instead of the video stopping short. */
 .pressVideos {
   display: grid;
-  grid-template-rows: 1fr auto;
   gap: 26px;
   justify-items: stretch;
   min-height: 0;
 }
-.pressVideos > .underLink {
-  justify-self: start;
+.pressFooter {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 34px;
 }
 .pressQuotes {
   display: grid;
@@ -646,5 +656,116 @@
     opacity: 0.94;
     transform: none;
     transition: none;
+  }
+}
+
+/* ==========================================================================
+   Tablet (≤900px)
+   The original design only centred things below 600px, so tablets fell into a
+   gap: single-column stacks still hugging the start edge. This centres the same
+   layout — no colour, size or spacing changes, only alignment.
+   ========================================================================== */
+@media (width<=900px) {
+  .heroCopy,
+  .heroStatement,
+  .heroSub,
+  .visionText,
+  .stackedHead,
+  .bioBlock,
+  .bioBlock .prose,
+  .teamCard,
+  .quoteWall,
+  .extraCard,
+  .videoCard figcaption,
+  .pressQuotes article,
+  .reviewColumns article,
+  .courseCardBody,
+  .productCard,
+  .detailCard,
+  .contactInfo > div,
+  .ctaStrip {
+    text-align: center;
+  }
+
+  .heroStatement {
+    justify-items: center;
+  }
+
+  .visionTitle,
+  .stories .stackedHead h2 {
+    text-align: center;
+    white-space: normal;
+  }
+
+  .stackedHead {
+    margin-inline: auto;
+  }
+
+  .heroActions,
+  .visionActions,
+  .podBtns,
+  .courseBadges,
+  .pressFooter,
+  .courseCardFoot,
+  .productCard .foot {
+    justify-content: center;
+  }
+
+  .videoTag,
+  .extraCard .badge {
+    align-self: center;
+  }
+
+  .person,
+  .socialRow a {
+    justify-content: center;
+  }
+
+  .socialRow {
+    align-items: center;
+  }
+
+  .underLink,
+  .textLink {
+    margin-inline: auto;
+  }
+
+  .serviceIcon,
+  .productCard .mark {
+    margin-inline: auto;
+  }
+
+  .metaList > div {
+    justify-content: space-between;
+  }
+
+  .bioName,
+  .bioRole {
+    text-align: center;
+  }
+
+  .breadcrumbs {
+    justify-content: center;
+  }
+
+  .pageHead,
+  .pageLead {
+    text-align: center;
+  }
+
+  .pageLead {
+    margin-inline: auto;
+  }
+
+  .prose {
+    text-align: center;
+  }
+
+  /* Bulleted lists stay readable: centre the block, keep the rows left-run. */
+  .prose ul,
+  .prose ol,
+  .quoteWall ul {
+    display: inline-grid;
+    text-align: start;
   }
 }

@@ -107,9 +107,6 @@ export default async function HomePage() {
           <div className="pressGrid">
             <div className="pressVideos">
               <VideoSlider slides={homeVideos.map((v) => ({ ...v }))} />
-              <Link className="underLink" href="/media">
-                לכל הכתבות והפודקאסטים{' '}
-              </Link>
             </div>
 
             <div className="pressQuotes">
@@ -126,6 +123,13 @@ export default async function HomePage() {
                 </article>
               ))}
             </div>
+          </div>
+
+          {/* Its own row, so neither column has to make space for it. */}
+          <div className="pressFooter">
+            <Link className="underLink" href="/media">
+              לכל הכתבות והפודקאסטים{' '}
+            </Link>
           </div>
         </div>
       </section>

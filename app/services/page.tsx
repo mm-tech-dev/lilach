@@ -56,7 +56,7 @@ export default async function ServicesPage() {
                     <div className="courseCardFoot">
                       <span />
                       <Link className="go" href={`/services/${service.slug}`}>
-                        לפרטים <span aria-hidden="true">←</span>
+                        לפרטים נוספים
                       </Link>
                     </div>
                   </div>

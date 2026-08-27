@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 
 import CtaStrip from '@/components/CtaStrip';
+import ExpandableText from '@/components/ExpandableText';
 import LilachBio from '@/components/LilachBio';
 import LilachGallery from '@/components/LilachGallery';
 import PageHead from '@/components/PageHead';
@@ -147,9 +148,7 @@ export default async function AboutPage() {
               </div>
               <h3>{member.name}</h3>
               <p className="role">{member.role}</p>
-              {member.paragraphs.map((text, i) => (
-                <p key={i}>{text}</p>
-              ))}
+              <ExpandableText paragraphs={member.paragraphs} lines={5} />
             </article>
           ))}
         </div>

@@ -1250,3 +1250,65 @@ button.bioThumb.is-active {
     margin-inline: auto;
   }
 }
+
+/* --- collapsible bios ---------------------------------------------------- */
+/* Height-based rather than -webkit-line-clamp: the bios are several
+   paragraphs, and the clamp property needs a single -webkit-box to work on. */
+.expandable {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+.expandableBody {
+  position: relative;
+  overflow: hidden;
+  max-height: calc(var(--clamp-lines, 5) * 1.85em);
+  transition: max-height 0.3s ease;
+}
+.expandableBody.is-open {
+  max-height: none;
+  overflow: visible;
+}
+.expandableBody > p:first-child {
+  margin-top: 0;
+}
+.expandableBody > p:last-child {
+  margin-bottom: 0;
+}
+/* Fades the cut-off line instead of slicing it flat. */
+.expandableBody:not(.is-open)::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2.2em;
+  background: linear-gradient(to bottom, #fff0, #fff 88%);
+  pointer-events: none;
+}
+.expandToggle {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  background: 0 0;
+  border: 0;
+  padding: 4px 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-bottom: 1px solid var(--ink);
+}
+.expandToggle:hover {
+  color: #9a5ccd;
+  border-color: #9a5ccd;
+}
+.expandToggle span {
+  font-size: 12px;
+}
+
+@media (width<=900px) {
+  .expandable {
+    justify-items: center;
+  }
+}

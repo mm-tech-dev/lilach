@@ -86,7 +86,7 @@ export default function LeadForm({
 
   if (status === 'sent') {
     return (
-      <form onSubmit={(e) => e.preventDefault()} aria-live="polite">
+      <form className="leadForm" onSubmit={(e) => e.preventDefault()} aria-live="polite">
         <div className="formSuccess" role="status">
           <span aria-hidden="true">✦</span>
           <strong>הפרטים נשלחו בהצלחה</strong>
@@ -102,7 +102,7 @@ export default function LeadForm({
   const busy = status === 'sending';
 
   return (
-    <form onSubmit={onSubmit} noValidate>
+    <form className="leadForm" onSubmit={onSubmit} noValidate>
       <label htmlFor={`${formId}-name`}>
         שם מלא
         <input

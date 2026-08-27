@@ -1359,3 +1359,69 @@ button.bioThumb.is-active {
 .bioMainPhoto {
   position: relative;
 }
+
+/* ==========================================================================
+   Lead form
+   The design styles the form through `.contact form`, so the copy that sits in
+   the service and course asides inherited no layout at all and its labels and
+   inputs ran together inline. These rules belong to the form itself, so it is
+   laid out wherever it appears. Text alignment is deliberately left alone, so
+   the centring the contact section applies on mobile still governs there.
+   ========================================================================== */
+.leadForm {
+  display: grid;
+  gap: 18px;
+}
+.leadForm label {
+  display: grid;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.leadForm input,
+.leadForm textarea {
+  width: 100%;
+  font: inherit;
+  font-weight: 400;
+  color: var(--ink);
+  background: 0 0;
+  border: 0;
+  border-bottom: 1px solid #c9bcd2;
+  outline: none;
+  padding: 11px 0;
+}
+.leadForm input:focus,
+.leadForm textarea:focus {
+  border-color: var(--ink);
+}
+.leadForm textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+.leadForm button[type='submit'] {
+  width: 100%;
+  font: inherit;
+  font-weight: 700;
+  color: #4d3d48;
+  background: linear-gradient(135deg, #f4c95d, #f3a98f);
+  border: 0;
+  border-radius: 50px;
+  padding: 16px;
+  margin-top: 4px;
+  cursor: pointer;
+}
+.leadForm button[type='submit']:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+.leadForm small {
+  color: #778985;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+/* The select is a sibling of the labels, so it needs the same rhythm. */
+.leadForm .selectField {
+  gap: 5px;
+}

@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import CtaStrip from '@/components/CtaStrip';
 import PageHead from '@/components/PageHead';
-import ServiceIcon from '@/components/ServiceIcon';
 import { getServices, resolveMediaMap } from '@/lib/vision-os/server';
 
 export const revalidate = 60;
@@ -50,7 +49,6 @@ export default async function ServicesPage() {
                     </Link>
                   ) : null}
                   <div className="courseCardBody">
-                    <ServiceIcon icon={service.icon_key} />
                     <h3>{service.title}</h3>
                     <p>{service.description}</p>
                     <div className="courseCardFoot">

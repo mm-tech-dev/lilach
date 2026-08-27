@@ -1523,3 +1523,39 @@ button.bioThumb.is-active {
     gap: 0;
   }
 }
+
+/* --- product detail ------------------------------------------------------ */
+/* The full copy is clamped so the cards stay level; the detail takes the slack
+   above the price row. */
+.productDetail {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.8;
+  width: 100%;
+}
+.productDetail p {
+  margin: 0 0 10px;
+}
+.productDetail ul {
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.productDetail li {
+  padding-inline-start: 20px;
+}
+.productDetail .expandable {
+  gap: 4px;
+  width: 100%;
+}
+/* Product cards are cream, so the fade has to match them, not white. */
+.productCard .expandableBody:not(.is-open)::after {
+  background: linear-gradient(to bottom, #fff0, #fff 88%);
+}
+.productDetail .expandToggle {
+  font-size: 13px;
+}
+@media (width<=900px) {
+  .productDetail .expandable {
+    justify-items: center;
+  }
+}

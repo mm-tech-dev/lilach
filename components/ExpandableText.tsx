@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 interface Props {
-  paragraphs: readonly string[];
+  /** Plain paragraphs, each rendered as its own <p>. */
+  paragraphs?: readonly string[];
+  /** Rich text from the CMS, used when there are no plain paragraphs. */
+  html?: string;
   /** Lines shown before the text is cut off. */
   lines?: number;
 }
@@ -15,7 +18,7 @@ interface Props {
  * are not given a control that would do nothing. Overflow is measured after
  * mount and again on resize, since it depends on the rendered column width.
  */
-export default function ExpandableText({ paragraphs, lines = 5 }: Props) {
+export default function ExpandableText({ paragraphs, html, lines = 5 }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [overflows, setOverflows] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -34,7 +37,7 @@ export default function ExpandableText({ paragraphs, lines = 5 }: Props) {
     const observer = new ResizeObserver(measure);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [paragraphs]);
+  }, [paragraphs, html]);
 
   return (
     <div className="expandable">
@@ -44,9 +47,11 @@ export default function ExpandableText({ paragraphs, lines = 5 }: Props) {
         className={expanded ? 'expandableBody is-open' : 'expandableBody'}
         style={{ '--clamp-lines': lines } as React.CSSProperties}
       >
-        {paragraphs.map((text, i) => (
-          <p key={i}>{text}</p>
-        ))}
+        {html ? (
+          <div dangerouslySetInnerHTML={{ __html: html }} />
+        ) : (
+          paragraphs?.map((text, i) => <p key={i}>{text}</p>)
+        )}
       </div>
 
       {overflows ? (

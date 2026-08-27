@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import ExpandableText from '@/components/ExpandableText';
 import LeadForm from '@/components/LeadForm';
 import PageHead from '@/components/PageHead';
 import { contact } from '@/lib/site';
@@ -160,7 +161,13 @@ export default async function ServicePage({ params }: Params) {
                         </div>
                       )}
                       <h3>{product.title}</h3>
-                      {product.description ? <p>{product.description}</p> : null}
+                      {product.full_description ? (
+                        <div className="productDetail prose">
+                          <ExpandableText html={product.full_description} lines={4} />
+                        </div>
+                      ) : product.description ? (
+                        <p>{product.description}</p>
+                      ) : null}
                       <div className="foot">
                         <span className="price">{price ?? 'לפרטים'}</span>
                         <a

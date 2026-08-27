@@ -868,3 +868,119 @@
     text-align: center;
   }
 }
+
+/* ==========================================================================
+   Header actions, drawer and icon rows
+   ========================================================================== */
+
+/* Transparent on desktop so the call button and menu keep their original
+   places in the header row; a real flex group below 900px. */
+.mobileActions {
+  display: contents;
+}
+
+@media (width<=900px) {
+  .mobileActions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  /* The design hides this under 600px; here it stays, paired with the menu. */
+  .nav .mobileActions .navCta {
+    display: inline-flex;
+    padding: 12px 20px;
+    font-size: 14px;
+    gap: 0;
+  }
+}
+@media (width<=420px) {
+  .nav .mobileActions .navCta {
+    padding: 11px 15px;
+    font-size: 13px;
+  }
+}
+
+/* --- drawer -------------------------------------------------------------- */
+.drawerClose {
+  position: absolute;
+  top: 22px;
+  inset-inline-end: 22px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--lilac);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 8px 22px #58426b14;
+}
+.drawerClose svg {
+  width: 18px;
+  height: 18px;
+}
+.mobileDrawer {
+  position: fixed;
+}
+
+/* --- icon rows ----------------------------------------------------------- */
+/* Network names are carried by aria-label, so only the glyphs are drawn. */
+.socialRow {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.socialRow a {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid #ffffff2e;
+  transition: background 0.2s, border-color 0.2s;
+}
+.socialRow a:hover {
+  background: #ffffff1f;
+  border-color: #ffffff5c;
+}
+.socialRow svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* On light surfaces the ring has to be dark to be visible at all. */
+.contactSocials a {
+  border-color: var(--lilac);
+  color: var(--ink);
+}
+.contactSocials a:hover {
+  background: var(--lilac);
+  border-color: var(--ink);
+}
+
+.drawerSocials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.drawerSocials a {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--lilac);
+  color: var(--ink);
+  background: #fff;
+  transition: background 0.2s, border-color 0.2s;
+}
+.drawerSocials a:hover {
+  background: var(--lilac);
+  border-color: var(--ink);
+}
+.drawerSocials svg {
+  width: 20px;
+  height: 20px;
+}

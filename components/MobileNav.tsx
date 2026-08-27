@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { contact, footerNav, socials } from '@/lib/site';
+import SocialLinks from './SocialLinks';
+import { footerNav } from '@/lib/site';
 
 /**
  * The source design hides the nav below 900px because it was a single page.
@@ -59,10 +60,25 @@ export default function MobileNav() {
         className={open ? 'mobileDrawer open' : 'mobileDrawer'}
         hidden={!open}
       >
+        <button
+          type="button"
+          className="drawerClose"
+          aria-label="סגירת התפריט"
+          onClick={() => setOpen(false)}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+
         <nav aria-label="ניווט למובייל">
-          <Link href="/" aria-current={pathname === '/' ? 'page' : undefined}>
-            ראשי
-          </Link>
           {footerNav.map((item) => (
             <Link
               key={item.href}
@@ -72,22 +88,9 @@ export default function MobileNav() {
               {item.label}
             </Link>
           ))}
-          <Link href="/testimonials" aria-current={pathname === '/testimonials' ? 'page' : undefined}>
-            מה מספרים
-          </Link>
         </nav>
 
-        <a className="drawerPhone" href={contact.phoneHref}>
-          {contact.phoneDisplay}
-        </a>
-
-        <div className="drawerSocials">
-          {socials.map((s) => (
-            <a key={s.key} href={s.href} target="_blank" rel="noopener noreferrer">
-              {s.label}
-            </a>
-          ))}
-        </div>
+        <SocialLinks className="drawerSocials" withPhone />
       </div>
 
       {open ? (

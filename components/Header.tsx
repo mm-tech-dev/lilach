@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import MobileNav from './MobileNav';
-import { nav, site } from '@/lib/site';
+import { contact, nav, site } from '@/lib/site';
 
 export default function Header() {
   return (
@@ -24,11 +24,14 @@ export default function Header() {
         ))}
       </nav>
 
-      <Link className="navCta" href="/contact">
-        בואו נדבר{' '}
-      </Link>
-
-      <MobileNav />
+      {/* `display: contents` on desktop, so these sit in the header row as
+          before; below 900px the group pairs the call button with the menu. */}
+      <div className="mobileActions">
+        <a className="navCta" href={contact.phoneHref}>
+          בואו נדבר{' '}
+        </a>
+        <MobileNav />
+      </div>
     </header>
   );
 }

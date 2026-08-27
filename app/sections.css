@@ -1425,3 +1425,33 @@ button.bioThumb.is-active {
 .leadForm .selectField {
   gap: 5px;
 }
+
+/* --- podcast attribution ------------------------------------------------- */
+/* Sitting inside the h2, it inherited the display letter-spacing and a 0.96
+   line-height, which crushed it at 17px. */
+.podcastCopy h2 .podcastBy {
+  letter-spacing: normal;
+  line-height: 1.5;
+  margin-top: 14px;
+  font-size: 18px;
+}
+
+/* --- podcast buttons on mobile ------------------------------------------- */
+/* The design stacks them under 600px; they share the row at equal width. */
+@media (width<=600px) {
+  .podcast .podBtns {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 12px;
+  }
+  .podcast .podBtns > * {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+    padding-inline: 12px;
+    gap: 0;
+    white-space: nowrap;
+  }
+}

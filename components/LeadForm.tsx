@@ -2,6 +2,7 @@
 
 import { useId, useState } from 'react';
 
+import SelectField from './SelectField';
 import { interestOptions } from '@/lib/site';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
@@ -121,6 +122,7 @@ export default function LeadForm({
           name="phone"
           type="tel"
           inputMode="tel"
+          dir="rtl"
           placeholder="המספר שלך"
           autoComplete="tel"
           disabled={busy}
@@ -140,22 +142,13 @@ export default function LeadForm({
         />
       </label>
 
-      <label htmlFor={`${formId}-interest`}>
-        במה נוכל לעזור?
-        <select
-          id={`${formId}-interest`}
-          name="interest"
-          defaultValue={defaultInterest}
-          disabled={busy}
-        >
-          <option value="">בחירת נושא</option>
-          {interestOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
+      <SelectField
+        name="interest"
+        label="במה נוכל לעזור?"
+        options={interestOptions}
+        defaultValue={defaultInterest}
+        disabled={busy}
+      />
 
       {withMessage ? (
         <label htmlFor={`${formId}-message`}>

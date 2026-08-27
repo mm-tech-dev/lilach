@@ -11,7 +11,10 @@ export default function Footer() {
       <footer>
         <div className="wrap footerGrid">
           <div className="brand footerBrand brandLogo">
-            <Image src="/logo.jpg" alt={`לוגו ${site.name}`} width={160} height={160} />
+            {/* Same dimensions as the header logo on purpose: it resolves to the
+                same optimised URL, so this one is already cached and paints
+                immediately instead of arriving late as a lazy image. */}
+            <Image src="/logo.jpg" alt={`לוגו ${site.name}`} width={112} height={112} />
             <span>
               {site.nameLines[0]}
               <br />

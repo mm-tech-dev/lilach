@@ -984,3 +984,170 @@
   width: 20px;
   height: 20px;
 }
+
+/* ==========================================================================
+   Form controls, decoration and legal pages
+   ========================================================================== */
+
+/* The oversized ✦ watermark behind the contact form. */
+.contact::before {
+  content: none !important;
+}
+
+/* --- phone field --------------------------------------------------------- */
+/* Browsers lay a tel input out left-to-right, which left this one field
+   out of step with the rest of the column. */
+.contact input[type='tel'] {
+  direction: rtl;
+  text-align: right;
+}
+@media (width<=600px) {
+  .contact input[type='tel'] {
+    text-align: center;
+  }
+}
+
+/* --- custom select ------------------------------------------------------- */
+/* The native popup is drawn by the OS and cannot be themed, so the list is
+   rendered here instead. */
+.selectField {
+  position: relative;
+  display: grid;
+  gap: 0;
+}
+.selectLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.contact .selectTrigger,
+.selectTrigger {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: 0 0;
+  border: 0;
+  border-bottom: 1px solid #bdcac6;
+  padding: 13px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: start;
+}
+.contact .selectTrigger:hover,
+.contact .selectTrigger.is-open,
+.selectTrigger:hover,
+.selectTrigger.is-open {
+  border-color: #b699cb;
+}
+.selectTrigger svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  transition: transform 0.2s;
+}
+.selectTrigger.is-open svg {
+  transform: rotate(180deg);
+}
+.selectTrigger:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.selectValue.is-placeholder {
+  color: #9aa6a2;
+}
+
+.selectList {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 8px);
+  inset-inline: 0;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  background: var(--cream);
+  border: 1px solid var(--lilac);
+  border-radius: 20px;
+  box-shadow: 0 22px 50px #58426b2e;
+  max-height: 280px;
+  overflow-y: auto;
+  display: grid;
+  gap: 2px;
+}
+.contact .selectList button,
+.selectList button {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: 0 0;
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  text-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.contact .selectList button.is-active,
+.selectList button.is-active {
+  background: #fff;
+}
+.contact .selectList button.is-selected,
+.selectList button.is-selected {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+}
+.selectList button span {
+  color: var(--lime);
+  font-size: 12px;
+}
+
+@media (width<=600px) {
+  .selectLabel,
+  .selectTrigger {
+    text-align: center;
+    justify-content: center;
+  }
+  .selectTrigger {
+    position: relative;
+  }
+  .selectTrigger svg {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .selectTrigger.is-open svg {
+    transform: translateY(-50%) rotate(180deg);
+  }
+  .selectList button {
+    justify-content: center;
+  }
+}
+
+/* --- icon buttons -------------------------------------------------------- */
+/* Kill the inherited inline-flex gap and let the grid do the centring. */
+.socialRow a,
+.drawerSocials a {
+  gap: 0;
+  padding: 0;
+  line-height: 0;
+}
+.socialRow svg,
+.drawerSocials svg {
+  display: block;
+}
+
+/* --- legal pages --------------------------------------------------------- */
+.legalPage {
+  background: #fff;
+}
+.legalPage .pageHead .halo {
+  display: none;
+}

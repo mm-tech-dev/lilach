@@ -719,13 +719,12 @@
     align-self: center;
   }
 
-  .person,
-  .socialRow a {
+  .person {
     justify-content: center;
   }
 
   .socialRow {
-    align-items: center;
+    justify-content: center;
   }
 
   .underLink,
@@ -826,12 +825,11 @@
     white-space: nowrap;
   }
 
-  /* Social links stay against the start edge rather than centring. */
+  /* Social links stay against the start edge rather than centring. The
+     alignment belongs on the row: each link is a grid that centres its own
+     glyph, so aligning the link instead pushes the icon off centre. */
   .socialRow,
   .footerGrid .socialRow {
-    align-items: flex-start;
-  }
-  .socialRow a {
     justify-content: flex-start;
   }
 }
@@ -1109,17 +1107,21 @@
 }
 
 @media (width<=600px) {
+  /* Matches the specificity of the `.contact .selectTrigger` base rule, which
+     would otherwise keep space-between and pin the value to the edge. */
   .selectLabel,
+  .contact .selectTrigger,
   .selectTrigger {
     text-align: center;
     justify-content: center;
   }
+  .contact .selectTrigger,
   .selectTrigger {
     position: relative;
   }
   .selectTrigger svg {
     position: absolute;
-    inset-inline-start: 0;
+    inset-inline-end: 0;
     top: 50%;
     transform: translateY(-50%);
   }
@@ -1150,4 +1152,30 @@
 }
 .legalPage .pageHead .halo {
   display: none;
+}
+
+/* --- form breathing room ------------------------------------------------- */
+/* The fields ran too close to the card edges. */
+.contact form {
+  padding: 40px 52px;
+}
+@media (width<=900px) {
+  .contact form {
+    padding: 36px 40px;
+  }
+}
+@media (width<=600px) {
+  .contact form {
+    padding: 30px 28px;
+  }
+}
+
+/* --- footer legal links -------------------------------------------------- */
+/* White at rest, not only on hover. */
+.footerLegal,
+.footerLegal a {
+  color: #fff;
+}
+.footerLegal a:hover {
+  color: var(--lime);
 }

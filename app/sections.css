@@ -1206,3 +1206,14 @@
     white-space: nowrap;
   }
 }
+
+/* --- section standfirsts on light backgrounds ---------------------------- */
+/* `.sectionHead > p` is pale (#c8d7d2) because it was written for the peach
+   band, which the design then overrides for `.services`. Everywhere else it
+   sits on cream and reads as washed out, so it takes the body colour. */
+.sectionHead > p {
+  color: var(--muted);
+}
+.services .sectionHead > p {
+  color: #655b58;
+}

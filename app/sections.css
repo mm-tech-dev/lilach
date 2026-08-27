@@ -1488,3 +1488,38 @@ button.bioThumb.is-active {
     justify-content: flex-start;
   }
 }
+
+/* --- closing strip on tablet --------------------------------------------- */
+/* Text keeps the right of the row and the buttons take the left, stacked and
+   sharing one fixed width so they match exactly. The tablet centring block
+   above would otherwise centre both. */
+@media (601px<=width<=900px) {
+  .ctaStrip {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    text-align: start;
+    gap: 30px;
+  }
+  .ctaStrip > div:first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .ctaStrip p {
+    margin-inline: 0;
+  }
+  .ctaStrip .podBtns {
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: stretch;
+    width: 200px;
+    gap: 12px;
+    margin-top: 0;
+  }
+  .ctaStrip .podBtns > * {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    gap: 0;
+  }
+}

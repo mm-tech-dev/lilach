@@ -47,6 +47,11 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
   alternates: { canonical: '/' },
+  verification: {
+    other: {
+      'facebook-domain-verification': 'somgizvejfg82ai2t4zorb9y852nro',
+    },
+  },
 };
 
 export const viewport: Viewport = {

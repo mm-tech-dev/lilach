@@ -1455,3 +1455,36 @@ button.bioThumb.is-active {
     white-space: nowrap;
   }
 }
+
+/* --- podcast on tablet --------------------------------------------------- */
+/* The design collapses `.podcast` to one column below 900px along with the
+   other two-column rows. Here it keeps the desktop arrangement through the
+   tablet range and only stacks on phones. */
+@media (601px<=width<=900px) {
+  .podcast {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    justify-items: stretch;
+  }
+  .podcastVisual {
+    height: 420px;
+    width: 100%;
+  }
+  .podcastCopy {
+    text-align: start;
+  }
+  .podcastCopy h2 {
+    font-size: 40px !important;
+  }
+  .podcastCopy > p,
+  .podcastCopy .mini {
+    margin-inline: 0;
+  }
+  .podcastCopy .mini {
+    margin-top: 0;
+  }
+  .podcast .podBtns {
+    justify-content: flex-start;
+  }
+}

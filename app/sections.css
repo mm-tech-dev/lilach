@@ -1179,3 +1179,30 @@
 .footerLegal a:hover {
   color: var(--lime);
 }
+
+/* --- footer navigation hover --------------------------------------------- */
+/* Same treatment as the legal links below them. */
+.footerGrid > div:not(.brand) a:hover {
+  color: var(--lime);
+}
+
+/* --- closing strip buttons ----------------------------------------------- */
+/* On narrow screens the pair shares the row at equal width instead of
+   stacking at whatever width their labels happen to need. */
+@media (width<=600px) {
+  .ctaStrip .podBtns {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 12px;
+  }
+  .ctaStrip .podBtns > * {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+    padding-inline: 12px;
+    gap: 0;
+    white-space: nowrap;
+  }
+}

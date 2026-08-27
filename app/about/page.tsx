@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import CtaStrip from '@/components/CtaStrip';
 import LilachBio from '@/components/LilachBio';
+import LilachGallery from '@/components/LilachGallery';
 import PageHead from '@/components/PageHead';
 import { site } from '@/lib/site';
 import { getReviews } from '@/lib/vision-os/server';
@@ -109,31 +110,7 @@ export default async function AboutPage() {
       {/* ---------------------------------------------------------- לילך --- */}
       <section className="section wrap" style={{ paddingTop: 56 }}>
         <div className="bioGrid">
-          <div className="bioMedia">
-            <div className="bioMainPhoto">
-              <Image
-                src="/lilach-portrait-outdoor.webp"
-                alt="לילך הרשקוביץ"
-                width={900}
-                height={900}
-                priority
-                sizes="(max-width: 900px) 90vw, 420px"
-              />
-            </div>
-            <div className="bioThumbs">
-              {LILACH_GALLERY.slice(1).map((img) => (
-                <div key={img.src} className="bioThumb">
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    width={600}
-                    height={600}
-                    sizes="(max-width: 900px) 40vw, 200px"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          <LilachGallery images={LILACH_GALLERY} />
 
           <div>
             <h2 className="bioName">

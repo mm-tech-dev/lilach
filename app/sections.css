@@ -1217,3 +1217,36 @@
 .services .sectionHead > p {
   color: #655b58;
 }
+
+/* --- Lilach's gallery ---------------------------------------------------- */
+/* Thumbnails select which photograph fills the frame above. */
+.bioThumbs {
+  grid-template-columns: repeat(auto-fit, minmax(62px, 1fr));
+}
+button.bioThumb {
+  padding: 0;
+  border: 2px solid transparent;
+  background: var(--lilac);
+  cursor: pointer;
+  transition: border-color 0.2s, opacity 0.2s, transform 0.2s;
+  opacity: 0.72;
+}
+button.bioThumb:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+button.bioThumb.is-active {
+  opacity: 1;
+  border-color: var(--ink);
+  box-shadow: 0 10px 26px #58426b2e;
+}
+.bioMainPhoto img {
+  transition: opacity 0.25s;
+}
+
+/* --- tablet: Lilach's photographs centre with the rest of the column ----- */
+@media (width<=900px) {
+  .bioMedia {
+    margin-inline: auto;
+  }
+}

@@ -1559,3 +1559,20 @@ button.bioThumb.is-active {
     justify-items: center;
   }
 }
+
+/* --- header edges -------------------------------------------------------- */
+/* Softer corners than the pill the design gives every call to action. */
+.nav .navCta {
+  border-radius: 20px;
+}
+
+/* On desktop the row spans the viewport so the logo and the button sit against
+   the edges, 20px in, rather than inside the 1180px column the rest uses. */
+@media (width>=901px) {
+  header.nav.wrap {
+    width: 100%;
+    max-width: none;
+    padding-inline: 20px;
+    margin-inline: 0;
+  }
+}

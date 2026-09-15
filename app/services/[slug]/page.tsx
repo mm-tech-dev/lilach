@@ -6,6 +6,7 @@ import { notFound, redirect } from 'next/navigation';
 import ExpandableText from '@/components/ExpandableText';
 import LeadForm from '@/components/LeadForm';
 import PageHead from '@/components/PageHead';
+import TreatmentGrid from '@/components/TreatmentGrid';
 import VideoCard from '@/components/VideoCard';
 import { contact, testimonialVideo } from '@/lib/site';
 import { formatPrice } from '@/lib/format';
@@ -14,6 +15,7 @@ import {
   getProducts,
   getService,
   getServices,
+  getTreatments,
   resolveMedia,
   resolveMediaMap,
 } from '@/lib/vision-os/server';
@@ -52,9 +54,11 @@ export default async function ServicePage({ params }: Params) {
   // Two cubes list other collections rather than standing on their own.
   const courses = slug === 'courses' || slug === 'workshops' ? await getCourses() : [];
   const products = slug === 'shop' ? await getProducts() : [];
+  const treatments = slug === 'treatments' ? await getTreatments() : [];
   const listMedia = await resolveMediaMap([
     ...courses.map((c) => c.image),
     ...products.map((p) => p.image),
+    ...treatments.map((t) => t.image),
   ]);
 
   // The courses cube shows courses; the workshops cube shows workshops/retreats.
@@ -62,6 +66,17 @@ export default async function ServicePage({ params }: Params) {
     slug === 'workshops'
       ? courses.filter((c) => c.event_type === 'סדנה' || c.event_type === 'ריטריט')
       : courses.filter((c) => c.event_type === 'קורס');
+
+  // "במה נוכל לעזור?" lists what this page offers; other pages keep the general list.
+  const pageOptions =
+    slug === 'treatments'
+      ? treatments.map((t) => t.title)
+      : slug === 'shop'
+        ? products.map((p) => p.title)
+        : slug === 'lectures'
+          ? lectureTitles(service.full_description)
+          : shownCourses.map((c) => c.title);
+  const formOptions = pageOptions.length > 0 ? [...pageOptions, 'אחר'] : undefined;
 
   return (
     <>
@@ -107,6 +122,20 @@ export default async function ServicePage({ params }: Params) {
                   caption={testimonialVideo.caption}
                 />
               </div>
+            ) : null}
+
+            {treatments.length > 0 ? (
+              <TreatmentGrid
+                treatments={treatments.map((t) => ({
+                  id: t.id,
+                  title: t.title,
+                  summary: t.summary,
+                  details: t.details,
+                  duration: t.duration,
+                  price: t.price,
+                  image: t.image ? (listMedia.get(t.image) ?? null) : null,
+                }))}
+              />
             ) : null}
 
             {shownCourses.length > 0 ? (
@@ -207,7 +236,9 @@ export default async function ServicePage({ params }: Params) {
               <h2>מתעניינים? נשמח לדבר</h2>
               <LeadForm
                 sourcePage={`/services/${service.slug}`}
-                defaultInterest={interestFor(service.slug)}
+                defaultInterest={formOptions ? '' : interestFor(service.slug)}
+                options={formOptions}
+                category={interestFor(service.slug)}
                 withMessage
                 submitLabel="שליחת פנייה"
               />
@@ -234,6 +265,15 @@ export default async function ServicePage({ params }: Params) {
       </section>
     </>
   );
+}
+
+/** The lecture names, read from the headings of the lectures page ("א. השפעה על המציאות"). */
+function lectureTitles(html: string | null): string[] {
+  if (!html) return [];
+  return [...html.matchAll(/<h3[^>]*>(.*?)<\/h3>/g)]
+    .map((m) => m[1]!.replace(/<[^>]+>/g, '').trim())
+    .map((title) => title.replace(/^[א-ת0-9]{1,2}\s*\.\s*/, ''))
+    .filter((title) => title && title !== 'עלות');
 }
 
 /** Pre-selects the closest matching subject in the lead form. */

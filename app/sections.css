@@ -1674,8 +1674,216 @@ button.bioThumb.is-active {
   align-items: center;
 }
 
-/* The shop artwork carries its own "חנות" lettering along the bottom; in the
-   card's wide crop it was cut through, so the card frames the upper part. */
-.courseCardMedia[data-slug="shop"] img {
-  object-position: center 28%;
+
+/* --- treatments: cards that open a details dialog ------------------------ */
+.treatmentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 22px;
+  margin-top: 36px;
+}
+.treatmentCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px #58426b12;
+}
+.treatmentMedia {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 0;
+  background: var(--lilac);
+  cursor: pointer;
+  overflow: hidden;
+}
+.treatmentMedia img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.treatmentMedia:hover img {
+  transform: scale(1.04);
+}
+.treatmentBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 22px 24px 20px;
+  text-align: start;
+}
+.treatmentBody h3 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.treatmentBody p {
+  flex: 1;
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+.treatmentFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #efe6f6;
+}
+.treatmentFoot .price {
+  color: var(--ink);
+  font-weight: 700;
+}
+.treatmentFoot .go {
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: 0 0;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.treatmentDialog {
+  width: min(720px, calc(100% - 32px));
+  max-height: 88vh;
+  padding: 0;
+  border: 0;
+  border-radius: 28px;
+  background: var(--cream);
+  color: var(--ink);
+  overflow: auto;
+  box-shadow: 0 40px 100px #2d1f3a55;
+}
+.treatmentDialog::backdrop {
+  background: #2d1f3a8c;
+  backdrop-filter: blur(3px);
+}
+html:has(.treatmentDialog[open]) {
+  overflow: hidden;
+}
+.treatmentDialogInner {
+  position: relative;
+  padding-bottom: 30px;
+  text-align: start;
+}
+.treatmentDialogMedia {
+  position: relative;
+  aspect-ratio: 16 / 8;
+  overflow: hidden;
+}
+.treatmentDialogMedia img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.treatmentDialog h2 {
+  margin: 24px 32px 12px;
+  font-size: 30px !important;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.treatmentMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 32px 18px;
+}
+.treatmentMeta div {
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 50px;
+  background: #fff;
+  font-size: 14px;
+}
+.treatmentMeta dt {
+  color: var(--muted);
+}
+.treatmentMeta dd {
+  margin: 0;
+  font-weight: 700;
+}
+.treatmentDialog .prose {
+  margin: 0 32px;
+}
+.treatmentActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 22px 32px 0;
+}
+.treatmentActions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.dialogClose {
+  position: absolute;
+  top: 14px;
+  inset-inline-end: 14px;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #fffffff0;
+  color: var(--ink);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 20px #0002;
+}
+@media (width<=600px) {
+  .treatmentGrid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+  .treatmentBody {
+    text-align: center;
+  }
+  .treatmentFoot {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .treatmentDialog h2 {
+    margin-inline: 20px;
+    font-size: 24px !important;
+  }
+  .treatmentMeta,
+  .treatmentDialog .prose,
+  .treatmentActions {
+    margin-inline: 20px;
+  }
+  .treatmentActions a {
+    flex: 1;
+  }
+}
+
+/* The base reset zeroes every margin, which also removes the auto margins a
+   modal dialog uses to sit in the middle of the screen. */
+.treatmentDialog {
+  margin: auto;
+}
+/* Long descriptions read better aligned to the start, also where the mobile
+   layout centres the page text. */
+.treatmentDialog .prose,
+.treatmentDialog .prose :is(p, li, h4, ul) {
+  text-align: start;
 }

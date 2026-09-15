@@ -12,6 +12,10 @@ interface Props {
   sourcePage: string;
   /** Pre-selects the subject, e.g. when embedded on a course page. */
   defaultInterest?: string;
+  /** The page's own subjects (its treatments, courses, lectures). Falls back to the general list. */
+  options?: readonly string[];
+  /** The CMS category for this page, stored alongside a specific choice. */
+  category?: string;
   /** Adds a free-text message field. */
   withMessage?: boolean;
   submitLabel?: string;
@@ -21,6 +25,8 @@ interface Props {
 export default function LeadForm({
   sourcePage,
   defaultInterest = '',
+  options,
+  category = '',
   withMessage = false,
   submitLabel = 'שליחת הפרטים',
   note = 'הפרטים נשמרים בדיסקרטיות מלאה.',
@@ -61,6 +67,7 @@ export default function LeadForm({
           phone,
           email,
           interest: String(data.get('interest') ?? ''),
+          category,
           message: String(data.get('message') ?? ''),
           sourcePage,
           // Honeypot: bots fill hidden fields, humans leave them empty.
@@ -145,7 +152,7 @@ export default function LeadForm({
       <SelectField
         name="interest"
         label="במה נוכל לעזור?"
-        options={interestOptions}
+        options={options && options.length > 0 ? options : interestOptions}
         defaultValue={defaultInterest}
         disabled={busy}
       />

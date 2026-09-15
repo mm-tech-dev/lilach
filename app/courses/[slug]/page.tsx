@@ -61,6 +61,11 @@ export default async function CoursePage({ params }: Params) {
   const kind =
     course.event_type === 'ריטריט' ? 'הריטריט' : course.event_type === 'סדנה' ? 'הסדנה' : 'הקורס';
   const listHref = isCourse ? '/services/courses' : '/services/workshops';
+  // The form offers this course's siblings: courses, or workshops and retreats.
+  const siblings = (await getCourses()).filter((c) =>
+    isCourse ? !c.event_type || c.event_type === 'קורס' : c.event_type && c.event_type !== 'קורס',
+  );
+  const formOptions = [...siblings.map((c) => c.title), 'אחר'];
   const dateLabel = isCourse
     ? 'תאריך פתיחה'
     : course.date_label?.includes('-')
@@ -191,7 +196,9 @@ export default async function CoursePage({ params }: Params) {
               <h2>הרשמה ופרטים</h2>
               <LeadForm
                 sourcePage={`/courses/${course.slug}`}
-                defaultInterest={isCourse ? 'קורסים' : 'סדנאות'}
+                defaultInterest={course.title}
+                options={formOptions}
+                category={isCourse ? 'קורסים' : 'סדנאות'}
                 withMessage
                 submitLabel="שליחת בקשת הרשמה"
                 note="נחזור אליכם לשיחה מקדימה לבחינת התאמה."

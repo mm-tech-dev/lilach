@@ -14,6 +14,7 @@ import type {
   ResolvedImage,
   ReviewRow,
   ServiceRow,
+  TreatmentRow,
 } from './types';
 
 const API_URL = process.env.VISION_OS_API_URL ?? 'https://morevision.co.il/api';
@@ -131,6 +132,11 @@ export async function getFeaturedReviews(count = 3): Promise<ReviewRow[]> {
   return (featured.length > 0 ? featured : rows).slice(0, count);
 }
 
+export async function getTreatments(): Promise<TreatmentRow[]> {
+  const rows = await list<TreatmentRow>('treatments');
+  return rows.filter(isLive).sort(bySortOrder);
+}
+
 export async function getProducts(): Promise<ProductRow[]> {
   const rows = await list<ProductRow>('products');
   return rows.filter(isLive).sort(bySortOrder);
@@ -209,6 +215,7 @@ export async function createLead(input: LeadInput): Promise<{ id: string } | nul
     phone: input.phone || null,
     email: input.email || null,
     interest: input.interest || null,
+    interest_detail: input.interestDetail || null,
     message_text: input.message ? `<p>${escapeHtml(input.message)}</p>` : null,
     source_page: input.sourcePage || null,
     lead_status: 'חדש',

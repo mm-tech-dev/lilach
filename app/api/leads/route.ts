@@ -54,7 +54,8 @@ export async function POST(req: Request) {
   const fullName = clamp(payload.fullName, 120);
   const phone = clamp(payload.phone, 40);
   const email = clamp(payload.email, 160);
-  const rawInterest = clamp(payload.interest, 60);
+  const rawInterest = clamp(payload.interest, 120);
+  const category = clamp(payload.category, 60);
   const message = clamp(payload.message, 4000);
   const sourcePage = clamp(payload.sourcePage, 200) || '/';
 
@@ -71,10 +72,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'כתובת האימייל אינה תקינה.' }, { status: 400 });
   }
 
-  // The CMS field is an enumeration — only accept known values.
-  const interest = (interestOptions as readonly string[]).includes(rawInterest) ? rawInterest : '';
+  // `interest` in the CMS is an enumeration of categories. Pages offer their own
+  // options (a treatment, a course, a lecture), so a specific choice is kept
+  // beside it and the category comes from the page it was sent from.
+  const categories = interestOptions as readonly string[];
+  const interest = categories.includes(rawInterest)
+    ? rawInterest
+    : categories.includes(category)
+      ? category
+      : '';
+  const interestDetail = rawInterest && rawInterest !== interest ? rawInterest : '';
 
-  const lead = await createLead({ fullName, phone, email, interest, message, sourcePage });
+  const lead = await createLead({
+    fullName,
+    phone,
+    email,
+    interest,
+    interestDetail,
+    message,
+    sourcePage,
+  });
 
   if (!lead) {
     // Nothing was stored, so tell the visitor to call rather than pretend success.
@@ -89,8 +106,8 @@ export async function POST(req: Request) {
   const mail = await sendMail({
     to: notifyRecipients(),
     subject: `פנייה חדשה מהאתר: ${fullName}`,
-    html: notificationHtml({ fullName, phone, email, interest, message, sourcePage }),
-    text: notificationText({ fullName, phone, email, interest, message, sourcePage }),
+    html: notificationHtml({ fullName, phone, email, interest, interestDetail, message, sourcePage }),
+    text: notificationText({ fullName, phone, email, interest, interestDetail, message, sourcePage }),
     // Replying to the notification answers the visitor directly.
     replyTo: email || undefined,
   });
@@ -111,6 +128,7 @@ interface Notification {
   phone: string;
   email: string;
   interest: string;
+  interestDetail: string;
   message: string;
   sourcePage: string;
 }
@@ -131,7 +149,8 @@ function notificationHtml(n: Notification): string {
     ${row('שם מלא', n.fullName)}
     ${row('טלפון', n.phone)}
     ${row('אימייל', n.email)}
-    ${row('נושא', n.interest)}
+    ${row('תחום', n.interest)}
+    ${row('נושא', n.interestDetail)}
     ${row('הודעה', n.message)}
     ${row('עמוד מקור', n.sourcePage)}
     ${row('התקבל בתאריך', new Date().toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' }))}
@@ -150,7 +169,8 @@ function notificationText(n: Notification): string {
     `שם מלא: ${n.fullName}`,
     n.phone ? `טלפון: ${n.phone}` : '',
     n.email ? `אימייל: ${n.email}` : '',
-    n.interest ? `נושא: ${n.interest}` : '',
+    n.interest ? `תחום: ${n.interest}` : '',
+    n.interestDetail ? `נושא: ${n.interestDetail}` : '',
     n.message ? `הודעה: ${n.message}` : '',
     `עמוד מקור: ${n.sourcePage}`,
     `התקבל: ${new Date().toISOString()}`,

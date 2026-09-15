@@ -70,6 +70,17 @@ export interface ProductRow extends BaseRow {
   is_active: boolean | null;
 }
 
+export interface TreatmentRow extends BaseRow {
+  title: string;
+  summary: string | null;
+  details: string | null;
+  image: string | null;
+  duration: string | null;
+  price: string | null;
+  sort_order: CmsNumber;
+  is_active: boolean | null;
+}
+
 export interface MediaRow {
   id: string;
   filename: string;
@@ -97,6 +108,8 @@ export interface LeadInput {
   phone?: string;
   email?: string;
   interest?: string;
+  /** The specific option picked, e.g. one treatment, when it is not a category. */
+  interestDetail?: string;
   message?: string;
   sourcePage?: string;
 }

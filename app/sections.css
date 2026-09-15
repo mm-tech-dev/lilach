@@ -1887,3 +1887,16 @@ html:has(.treatmentDialog[open]) {
 .treatmentDialog .prose :is(p, li, h4, ul) {
   text-align: start;
 }
+
+/* Card summaries are the document's opening paragraph, so they are held to
+   three lines; the dialog carries the whole text. */
+.treatmentBody p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.treatmentFoot {
+  margin-top: auto;
+}

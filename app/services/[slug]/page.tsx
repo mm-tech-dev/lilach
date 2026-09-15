@@ -107,11 +107,11 @@ export default async function ServicePage({ params }: Params) {
                 className="prose"
                 dangerouslySetInnerHTML={{ __html: service.full_description }}
               />
-            ) : (
+            ) : treatments.length === 0 ? (
               <div className="prose">
                 <p>{service.description}</p>
               </div>
-            )}
+            ) : null}
 
             {slug === 'lectures' ? (
               <div className="serviceVideo">

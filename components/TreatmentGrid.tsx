@@ -101,20 +101,14 @@ export default function TreatmentGrid({ treatments }: { treatments: TreatmentCar
 
             <h2 id="treatment-dialog-title">{current.title}</h2>
 
-            {current.duration || current.price ? (
+            {/* Duration and price are part of the details text, as written in the
+                centre's own document, so they are not repeated here. */}
+            {current.duration ? (
               <dl className="treatmentMeta">
-                {current.duration ? (
-                  <div>
-                    <dt>משך:</dt>
-                    <dd>{current.duration}</dd>
-                  </div>
-                ) : null}
-                {current.price ? (
-                  <div>
-                    <dt>עלות:</dt>
-                    <dd>{current.price}</dd>
-                  </div>
-                ) : null}
+                <div>
+                  <dt>משך:</dt>
+                  <dd>{current.duration}</dd>
+                </div>
               </dl>
             ) : null}
 

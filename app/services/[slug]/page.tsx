@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import ExpandableText from '@/components/ExpandableText';
 import LeadForm from '@/components/LeadForm';
 import PageHead from '@/components/PageHead';
-import { contact } from '@/lib/site';
+import VideoCard from '@/components/VideoCard';
+import { contact, testimonialVideo } from '@/lib/site';
 import { formatPrice } from '@/lib/format';
 import {
   getCourses,
@@ -25,7 +26,7 @@ interface Params {
 
 export async function generateStaticParams() {
   const services = await getServices();
-  return services.map((s) => ({ slug: s.slug }));
+  return services.filter((s) => !s.external_url).map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
@@ -43,6 +44,8 @@ export default async function ServicePage({ params }: Params) {
   const { slug } = await params;
   const service = await getService(slug);
   if (!service) notFound();
+  // Hosted elsewhere, so there is no page of its own to show.
+  if (service.external_url) redirect(service.external_url);
 
   const img = await resolveMedia(service.image, service.title);
 
@@ -94,6 +97,17 @@ export default async function ServicePage({ params }: Params) {
                 <p>{service.description}</p>
               </div>
             )}
+
+            {slug === 'lectures' ? (
+              <div className="serviceVideo">
+                <VideoCard
+                  type={testimonialVideo.type}
+                  src={testimonialVideo.src}
+                  title={testimonialVideo.title}
+                  caption={testimonialVideo.caption}
+                />
+              </div>
+            ) : null}
 
             {shownCourses.length > 0 ? (
               <div className="courseCards" style={{ marginTop: 50 }}>
@@ -230,6 +244,7 @@ function interestFor(slug: string): string {
     case 'workshops':
       return 'סדנאות';
     case 'lecture-and-therapy':
+    case 'treatments':
       return 'טיפול אישי';
     case 'courses':
       return 'קורסים';

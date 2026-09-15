@@ -5,7 +5,7 @@ import { contact } from '@/lib/site';
 /** Closing call-to-action used at the bottom of interior pages. */
 export default function CtaStrip({
   title = 'אולי זה הרגע שלכם להאיר.',
-  body = 'מתקשרים אלינו ומדברים — שיחה אישית, נעימה וללא התחייבות.',
+  body = 'מתקשרים אלינו ומדברים: שיחה אישית, נעימה וללא התחייבות.',
   cta,
   href,
 }: {

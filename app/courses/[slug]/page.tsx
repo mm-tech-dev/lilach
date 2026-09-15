@@ -56,9 +56,20 @@ export default async function CoursePage({ params }: Params) {
   const deposit = formatPrice(course.deposit);
   const max = formatCount(course.max_participants);
 
+  // Workshops and retreats are listed under their own cube, not the courses one.
+  const isCourse = !course.event_type || course.event_type === 'קורס';
+  const kind =
+    course.event_type === 'ריטריט' ? 'הריטריט' : course.event_type === 'סדנה' ? 'הסדנה' : 'הקורס';
+  const listHref = isCourse ? '/services/courses' : '/services/workshops';
+  const dateLabel = isCourse
+    ? 'תאריך פתיחה'
+    : course.date_label?.includes('-')
+      ? 'תאריכים'
+      : 'תאריך';
+
   const meta: { label: string; value: string }[] = [
-    course.date_label ? { label: 'תאריך פתיחה', value: course.date_label } : null,
-    course.event_type ? { label: 'סוג המפגש', value: course.event_type } : null,
+    course.date_label ? { label: dateLabel, value: course.date_label } : null,
+    course.event_type ? { label: 'סוג', value: course.event_type } : null,
     course.sessions ? { label: 'מבנה', value: course.sessions } : null,
     course.hours ? { label: 'שעות', value: course.hours } : null,
     course.location ? { label: 'מיקום', value: course.location } : null,
@@ -94,7 +105,11 @@ export default async function CoursePage({ params }: Params) {
       />
 
       <PageHead
-        crumbs={[{ href: '/courses', label: 'קורסים וסדנאות' }, { label: course.title }]}
+        crumbs={[
+          { href: '/services', label: 'שירותי המרכז' },
+          { href: listHref, label: isCourse ? 'קורסים' : 'סדנאות' },
+          { label: course.title },
+        ]}
         title={course.title}
         lead={course.summary ?? undefined}
       />
@@ -142,7 +157,7 @@ export default async function CoursePage({ params }: Params) {
 
           <aside className="detailAside">
             <div className="detailCard">
-              <h2>פרטי המפגש</h2>
+              <h2>פרטי {kind}</h2>
               <dl className="metaList">
                 {meta.map((m) => (
                   <div key={m.label}>
@@ -157,6 +172,16 @@ export default async function CoursePage({ params }: Params) {
                   </div>
                 ) : null}
               </dl>
+              {course.landing_url ? (
+                <a
+                  className="primary"
+                  href={course.landing_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  לפרטים והרשמה בדף הנחיתה
+                </a>
+              ) : null}
               <a className="outline" href={contact.phoneHref}>
                 {contact.phoneDisplay}
               </a>
@@ -166,15 +191,15 @@ export default async function CoursePage({ params }: Params) {
               <h2>הרשמה ופרטים</h2>
               <LeadForm
                 sourcePage={`/courses/${course.slug}`}
-                defaultInterest={course.event_type === 'סדנה' ? 'סדנאות' : 'קורסים'}
+                defaultInterest={isCourse ? 'קורסים' : 'סדנאות'}
                 withMessage
                 submitLabel="שליחת בקשת הרשמה"
                 note="נחזור אליכם לשיחה מקדימה לבחינת התאמה."
               />
             </div>
 
-            <Link className="underLink" href="/courses">
-              לכל הקורסים והסדנאות{' '}
+            <Link className="underLink" href={listHref}>
+              {isCourse ? 'לכל הקורסים' : 'לכל הסדנאות והריטריטים'}{' '}
             </Link>
           </aside>
         </div>

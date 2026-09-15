@@ -88,7 +88,7 @@ export async function POST(req: Request) {
 
   const mail = await sendMail({
     to: notifyRecipients(),
-    subject: `פנייה חדשה מהאתר — ${fullName}`,
+    subject: `פנייה חדשה מהאתר: ${fullName}`,
     html: notificationHtml({ fullName, phone, email, interest, message, sourcePage }),
     text: notificationText({ fullName, phone, email, interest, message, sourcePage }),
     // Replying to the notification answers the visitor directly.

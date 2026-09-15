@@ -26,6 +26,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   for (const s of services) {
+    // Services hosted elsewhere have no page on this site.
+    if (s.external_url) continue;
     pages.push({
       url: `${site.url}/services/${s.slug}`,
       lastModified: new Date(s.updated_at ?? now),

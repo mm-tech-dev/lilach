@@ -11,7 +11,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'שירותי המרכז',
   description:
-    'הרצאות, סדנאות, הרצאה וטיפול משולבים וקורסים — בחרו את המרחב שמתאים לכם עכשיו במרכז להפצת אור.',
+    'קורסים, סדנאות, קורס דיגיטלי, הרצאות, טיפולים וחנות: בחרו את המרחב שמתאים לכם עכשיו במרכז להפצת אור.',
   alternates: { canonical: '/services' },
 };
 
@@ -35,10 +35,20 @@ export default async function ServicesPage() {
           <div className="courseCards">
             {services.map((service) => {
               const img = service.image ? media.get(service.image) : null;
+              // A service hosted elsewhere (the digital course) opens in a new tab.
+              const href = service.external_url || `/services/${service.slug}`;
+              const linkProps = service.external_url
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {};
               return (
                 <article key={service.id} className="courseCard">
                   {img ? (
-                    <Link href={`/services/${service.slug}`} className="courseCardMedia">
+                    <Link
+                      href={href}
+                      {...linkProps}
+                      className="courseCardMedia"
+                      data-slug={service.slug}
+                    >
                       <Image
                         src={img.url}
                         alt={img.alt || service.title}
@@ -53,7 +63,7 @@ export default async function ServicesPage() {
                     <p>{service.description}</p>
                     <div className="courseCardFoot">
                       <span />
-                      <Link className="go" href={`/services/${service.slug}`}>
+                      <Link className="go" href={href} {...linkProps}>
                         לפרטים נוספים
                       </Link>
                     </div>

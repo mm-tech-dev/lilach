@@ -20,6 +20,8 @@ export interface ServiceRow extends BaseRow {
   icon_key: IconKey | null;
   full_description: string | null;
   image: string | null;
+  /** When set, the service lives elsewhere and its card links out. */
+  external_url: string | null;
   sort_order: CmsNumber;
   is_active: boolean | null;
 }
@@ -41,6 +43,8 @@ export interface CourseRow extends BaseRow {
   image: string | null;
   /** Extra images; stored as a JSON array of media UUIDs. */
   gallery: string[] | string | null;
+  /** External registration page, e.g. a Smoove landing page. */
+  landing_url: string | null;
   show_in_ticker: boolean | null;
   sort_order: CmsNumber;
   is_active: boolean | null;

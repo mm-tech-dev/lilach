@@ -1576,3 +1576,106 @@ button.bioThumb.is-active {
     margin-inline: 0;
   }
 }
+
+/* --- mobile hero --------------------------------------------------------- */
+@media (width<=600px) {
+  /* The pale yellow disc sat behind the headline on narrow screens. */
+  .hero .orb1 {
+    display: none;
+  }
+  /* Smaller and pushed into the photo's lower left corner, so it covers less
+     of the picture. */
+  .hero .heroSplit .floatingCard {
+    inset-inline-end: -6px;
+    bottom: -16px;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 14px;
+  }
+  .hero .heroSplit .floatingCard > span {
+    font-size: 17px;
+  }
+  .hero .heroSplit .floatingCard p {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+}
+
+/* --- Lilach's gallery below desktop -------------------------------------- */
+/* The column is centred with auto margins, which also shrink-wraps a grid:
+   without an explicit width the thumbnail strip collapsed into one column and
+   the main photograph shrank to thumbnail size. */
+@media (width<=900px) {
+  .bioMedia {
+    width: 100%;
+  }
+  .bioThumbs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --- images inside CMS rich text (treatments page) ----------------------- */
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 22px;
+  margin: 6px 0 24px;
+  box-shadow: 0 22px 55px #58426b1f;
+}
+.prose img.proseNarrow {
+  max-width: 420px;
+  box-shadow: none;
+}
+@media (width<=600px) {
+  .prose img.proseNarrow {
+    margin-inline: auto;
+  }
+}
+
+/* --- testimony video on the lectures page -------------------------------- */
+.serviceVideo {
+  max-width: 560px;
+  margin-top: 36px;
+}
+@media (width<=900px) {
+  .serviceVideo {
+    margin-inline: auto;
+  }
+}
+
+/* --- embedded podcast in the media page's extra cards -------------------- */
+.extraVideo {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #1f1a24;
+  margin: 4px 0 18px;
+}
+.extraVideo iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* --- course aside: landing page button above the phone button ------------ */
+.detailCard .primary + .outline {
+  margin-top: 10px;
+}
+
+/* The design leaves `.outline` inline, so in the aside its width and padding
+   were ignored and it rode up into the button above it. */
+.detailCard .primary,
+.detailCard .outline {
+  display: flex;
+  align-items: center;
+}
+
+/* The shop artwork carries its own "חנות" lettering along the bottom; in the
+   card's wide crop it was cut through, so the card frames the upper part. */
+.courseCardMedia[data-slug="shop"] img {
+  object-position: center 28%;
+}

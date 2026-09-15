@@ -20,7 +20,7 @@ export default function MediaPage() {
         crumbs={[{ label: 'מן התקשורת' }]}
         title="מן"
         accent="התקשורת."
-        lead="כתבות, ראיונות, סרטונים ופודקאסטים — מה שנכתב ונאמר על המרכז, על השיטה ועל התהליכים שעוברים כאן."
+        lead="כתבות, ראיונות, סרטונים ופודקאסטים: מה שנכתב ונאמר על המרכז, על השיטה ועל התהליכים שעוברים כאן."
       />
 
       {/* ------------------------------------------------ ראיונות וכתבות --- */}
@@ -53,7 +53,7 @@ export default function MediaPage() {
             הרצאה <span>וטיפול.</span>
           </h2>
           <p>
-            ערב נשות כרמיה, {carmiaLecture.date} — הרצאה חווייתית שנפתחה בהבנה והמשיכה לטיפול חי מול
+            ערב נשות כרמיה, {carmiaLecture.date}. הרצאה חווייתית שנפתחה בהבנה והמשיכה לטיפול חי מול
             הקהל.
           </p>
         </div>
@@ -121,13 +121,22 @@ export default function MediaPage() {
             <span className="badge">פודקאסט</span>
             <h3>{podcastChaya.title}</h3>
             <p>{podcastChaya.body}</p>
+            <div className="extraVideo">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${podcastChaya.youtubeId}`}
+                title={podcastChaya.title}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
             <a
               className="underLink"
               href={podcastChaya.href}
               target="_blank"
               rel="noopener noreferrer"
             >
-              לצפייה בערוץ{' '}
+              לצפייה ביוטיוב{' '}
             </a>
           </article>
 

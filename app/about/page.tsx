@@ -14,16 +14,16 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'להכיר את צוות המרכז',
   description:
-    'לילך הרשקוביץ, אסף הרשקוביץ וגילי כץ — הצוות של המרכז להפצת אור, ומה מספרים בוגרי הקורסים.',
+    'לילך הרשקוביץ, אסף הרשקוביץ, אורית ידעי וגילי כץ: הצוות של המרכז להפצת אור, ומה מספרים בוגרי הקורסים.',
   alternates: { canonical: '/about' },
 };
 
 const LILACH_HE = [
   'לילך הרשקוביץ, נשואה לאסף ואמא למיכאלה ואופיר. עומדת בראש מרכז מ.ל.א (המרכז להפצת אור), מייסדת שיטת ח.מ.ל.ה (חיבור מעשי לאור הנשמה), מורה לתקשור ומטפלת ברובד תת המודע.',
-  'כבר מגיל צעיר הרגשתי שיש הרבה מעבר ליכולת לחוות את החיים במלואם רק דרך חמשת החושים, אבל רק מאוחר יותר התחלתי להעמיק בעולם הרוח. למדתי רייקי, הילינג וטארוט, והרחבתי את הידע התיאורטי והמעשי במקביל לעבודתי בתחום הרכש והקניינות — הייתי מנהלת יבוא בחברות גדולות מאוד.',
-  'אהבתי מאוד את העיסוק שלי, אבל בפנים הרגשתי חוסר שקט. משהו חסר לי מאוד ולא הצלחתי להבין מה. לא ידעתי להגיד למה אני מרגישה שאני לא מגשימה את עצמי. השאלות האלה הלכו והתעצמו, וידעתי שאני צריכה לעשות משהו אחר — למרות שעוד לא הייתה לי תשובה ברורה.',
-  'אחרי הלידה של הבן השני שלי הבעבוע הפנימי הלך וגדל, ולמרות שמאוד אהבתי את העיסוק שלי הקריאה הפנימית הלכה והתגברה עד שהבנתי שאני צריכה לעשות משהו אחר. התשובה לשאלה הגיעה לאחר צפייה בתוכנית אירוח שבה התארחה נירית שפירא — מנטורית בכירה לריפוי, מטפלת בשיטה שנקראת ״איזון חיים״. כשראיתי אותה מדגימה עבודה עם שריר הגוף דרך היד (קינסיולוגיה) הבנתי שמצאתי את מה שהיה חסר לי: הפן הפרקטי שמקשר את התחושות למשהו פיזי ומוחשי שניתן להרגיש.',
-  'ביקשתי לחוות את הטיפול באופן אישי ונדהמתי מהדיוק הגבוה של אותה שיטה, לגלות דרך היד את אותם מקומות ואותן נקודות שדרשו אצלי ריפוי. היכולת לגלות דרך הזיכרון של הגוף את הפתרון המתבקש — ולא כזה שסופק על ידי המטפלת אלא על ידי — גרמה לי להבין שישנה דרך שמחברת בין גוף לנשמה, בין חומר לרוח, ודרכה ניתן לפרש גם את התוכנית הנשמתית שאיתה ירדנו לכאן.',
+  'כבר מגיל צעיר הרגשתי שיש הרבה מעבר ליכולת לחוות את החיים במלואם רק דרך חמשת החושים, אבל רק מאוחר יותר התחלתי להעמיק בעולם הרוח. למדתי רייקי, הילינג וטארוט, והרחבתי את הידע התיאורטי והמעשי במקביל לעבודתי בתחום הרכש והקניינות. הייתי מנהלת יבוא בחברות גדולות מאוד.',
+  'אהבתי מאוד את העיסוק שלי, אבל בפנים הרגשתי חוסר שקט. משהו חסר לי מאוד ולא הצלחתי להבין מה. לא ידעתי להגיד למה אני מרגישה שאני לא מגשימה את עצמי. השאלות האלה הלכו והתעצמו, וידעתי שאני צריכה לעשות משהו אחר, למרות שעוד לא הייתה לי תשובה ברורה.',
+  'אחרי הלידה של הבן השני שלי הבעבוע הפנימי הלך וגדל, ולמרות שמאוד אהבתי את העיסוק שלי הקריאה הפנימית הלכה והתגברה עד שהבנתי שאני צריכה לעשות משהו אחר. התשובה לשאלה הגיעה לאחר צפייה בתוכנית אירוח שבה התארחה נירית שפירא, מנטורית בכירה לריפוי ומטפלת בשיטה שנקראת ״איזון חיים״. כשראיתי אותה מדגימה עבודה עם שריר הגוף דרך היד (קינסיולוגיה) הבנתי שמצאתי את מה שהיה חסר לי: הפן הפרקטי שמקשר את התחושות למשהו פיזי ומוחשי שניתן להרגיש.',
+  'ביקשתי לחוות את הטיפול באופן אישי ונדהמתי מהדיוק הגבוה של אותה שיטה, לגלות דרך היד את אותם מקומות ואותן נקודות שדרשו אצלי ריפוי. היכולת לגלות דרך הזיכרון של הגוף את הפתרון המתבקש (ולא כזה שסופק על ידי המטפלת אלא על ידי) גרמה לי להבין שישנה דרך שמחברת בין גוף לנשמה, בין חומר לרוח, ודרכה ניתן לפרש גם את התוכנית הנשמתית שאיתה ירדנו לכאן.',
   'בעקבות הטיפול קיבלתי שתי החלטות חשובות: הלכתי ללמוד את השיטה והתפטרתי מהעבודה. למרות אי־ודאות כלכלית באותה תקופה הייתי נחושה לצאת לדרך חדשה של טיפול וייעוץ, ואני עוסקת בכך למעלה מ־12 שנים, כשמאחורי אלפי שעות טיפול ומאות מטופלים.',
   'בשנים האחרונות אני מרגישה רצון עז להעביר את הידע שרכשתי דרך שיטה שפיתחתי לעבודה עם תת המודע, המאפשרת דרך תשאול להגיע לשורש או למקור הבעיה ולטפל בה. היתרון של השיטה הוא ביכולת להגיע תוך זמן קצר יחסית למה שמעכב אותנו, ולעבוד על כך באופן ממוקד ומדויק, במקום טיפול שנמשך שנים.',
   'אני מגשימה את עצמי דרך הטיפולים, הסדנאות והקורסים, ועוזרת לאנשים להתחבר למי שהם ולהגשים את עצמם. זה שווה הכול מבחינתי, ואני בהוקרת תודה ענקית על כך ועל השליחות שלקחתי על עצמי בחיים האלה.',
@@ -31,7 +31,7 @@ const LILACH_HE = [
 
 const LILACH_EN = [
   'Lilah Hershkovitz is married to Asaf and mother of Michaela and Ofir. She heads the Spread the Light centre, founded the H.M.L.A method (a practical connection to the light of the soul), teaches channelling and works as a subconscious therapist.',
-  'Since I was young, I knew that there is something far greater than the way we perceive the world through our five senses. Eighteen years ago I began my spiritual journey, taking courses in tarot reading and Reiki, and using what I learned to advise and treat people alongside a career that had nothing to do with the spiritual world — I worked as an import manager for a large Israeli company.',
+  'Since I was young, I knew that there is something far greater than the way we perceive the world through our five senses. Eighteen years ago I began my spiritual journey, taking courses in tarot reading and Reiki, and using what I learned to advise and treat people alongside a career that had nothing to do with the spiritual world: I worked as an import manager for a large Israeli company.',
   'Although I had a stable job, I felt an inner calling growing stronger to change direction.',
   "One day I came across a treatment method called 'Life Alignment' on a TV show, and I immediately knew this was the method I wanted to learn in order to help and heal others. It allowed me to connect the spiritual aspect with the practical, physical side.",
   "I went for a treatment to experience the method myself, and I was amazed at the simplicity and precision with which the physical body can provide so much accurate information about suppressed events, traumas, emotional states and energetic blockages. It was remarkable how the soul's journey could be decoded within the body.",
@@ -46,7 +46,6 @@ const LILACH_GALLERY = [
   { src: '/press-magie-de-la-guerison.webp', alt: 'כתבה בצרפתית על לילך הרשקוביץ' },
   { src: '/lilach-headshot.webp', alt: 'פורטרט של לילך הרשקוביץ' },
   { src: '/lilach-crater.webp', alt: 'לילך הרשקוביץ פורשת ידיים על רקע מכתש במדבר' },
-  { src: '/book-haemet-hapshuta.webp', alt: 'כריכת הקורס הדיגיטלי האמת הפשוטה' },
 ];
 
 const TEAM = [
@@ -72,13 +71,12 @@ const TEAM = [
   },
   {
     name: 'גילי כץ',
-    role: 'מטפלת במרכז להפצת אור',
+    role: 'מטפלת זוגית ומשפחתית ומטפלת בשיטת ח.מ.ל.ה',
     photo: { src: '/gili-katz.webp', alt: 'גילי כץ, מטפלת במרכז להפצת אור' },
-    // Placeholder text, to be replaced with Gili's own words.
     paragraphs: [
-      'אודות זמניים על גילי.',
-      'גילי כץ היא מטפלת מטעם המרכז להפצת אור, ומלווה מטופלים ומטופלות בתהליכים אישיים של חיבור, בהירות וריפוי.',
-      'הטקסט המלא יעודכן בקרוב.',
+      'בעלת M.A בעבודה סוציאלית, מטפלת זוגית ומשפחתית מזה 25 שנה ומטפלת בשיטת ח.מ.ל.ה.',
+      'אני מאמינה שהשינוי מתחיל ברגע שבו אנחנו מסכימות להסיר את הספק, לשחרר את הגבולות שיצרנו לעצמנו ולאפשר למה שנראה בלתי אפשרי להפוך לאפשרי.',
+      'כשמסירים את הספק, האפשרויות נפתחות. ושם מתחיל הקסם.',
     ],
   },
 ];

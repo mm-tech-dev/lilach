@@ -14,6 +14,12 @@ const icons: Record<string, React.ReactNode> = {
       <path d="M8.6 8.4c-.3.7-.2 1.6.5 2.6a9 9 0 0 0 3.9 3.4c1.1.4 2 .3 2.5-.2l.4-.5-2-1-.7.7a6 6 0 0 1-2.4-2.4l.7-.7-1-2-.6.2Z" />
     </>
   ),
+  email: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />
+    </>
+  ),
   phone: (
     <path d="M6.5 3h3l1.5 4-2 1.4a12 12 0 0 0 5.6 5.6L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6.5 3Z" />
   ),
@@ -60,6 +66,10 @@ export default function SocialLinks({ className = 'socialRow', withPhone = false
           <Glyph name={s.key} />
         </a>
       ))}
+
+      <a href={contact.emailHref} aria-label={`מייל למרכז: ${contact.email}`} title={contact.email}>
+        <Glyph name="email" />
+      </a>
 
       {withPhone ? (
         <a href={contact.phoneHref} aria-label={`חיוג ל${contact.phoneDisplay}`} title={contact.phoneDisplay}>

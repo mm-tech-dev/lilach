@@ -42,6 +42,9 @@ export default function CtaStrip({
           >
             וואטסאפ
           </a>
+          <a className="outline" href={contact.emailHref}>
+            מייל
+          </a>
         </div>
       </div>
     </div>

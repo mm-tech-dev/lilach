@@ -1668,22 +1668,6 @@ button.bioThumb.is-active {
   }
 }
 
-/* --- testimony video on the lectures page -------------------------------- */
-.serviceVideo {
-  max-width: 560px;
-  margin-top: 36px;
-}
-/* An upright clip at full width would tower over the text; a narrower card
-   keeps the whole 3:4 frame without hitting the height cap. */
-.serviceVideo:has(.is-portrait) {
-  max-width: 420px;
-}
-@media (width<=900px) {
-  .serviceVideo {
-    margin-inline: auto;
-  }
-}
-
 /* --- online course password prompt --------------------------------------- */
 .courseLock {
   max-width: 460px;

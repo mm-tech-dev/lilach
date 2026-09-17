@@ -18,6 +18,8 @@ export const contact = {
   phoneDisplay: '054-5931208',
   phoneHref: 'tel:+972545931208',
   whatsapp: 'https://api.whatsapp.com/send/?phone=972545931208',
+  email: 'lightcenterl.a@gmail.com',
+  emailHref: 'mailto:lightcenterl.a@gmail.com',
   hours: [
     { days: 'ראשון–חמישי', time: '08:30–20:00' },
     { days: 'שישי', time: '08:00–13:00' },
@@ -73,7 +75,7 @@ export const vision = {
   ],
 } as const;
 
-/** A lecture participant's testimony, shown in the video strip and on the lectures page. */
+/** A lecture participant's testimony, shown in the video strip and on the media page. */
 export const testimonialVideo = {
   key: 'testimonial',
   type: 'file',

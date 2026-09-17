@@ -7,8 +7,7 @@ import ExpandableText from '@/components/ExpandableText';
 import LeadForm from '@/components/LeadForm';
 import PageHead from '@/components/PageHead';
 import TreatmentGrid from '@/components/TreatmentGrid';
-import VideoCard from '@/components/VideoCard';
-import { contact, onlineCourse, testimonialVideo } from '@/lib/site';
+import { contact, onlineCourse } from '@/lib/site';
 import { formatPrice } from '@/lib/format';
 import {
   getCourses,
@@ -110,18 +109,6 @@ export default async function ServicePage({ params }: Params) {
             ) : treatments.length === 0 ? (
               <div className="prose">
                 <p>{service.description}</p>
-              </div>
-            ) : null}
-
-            {slug === 'lectures' ? (
-              <div className="serviceVideo">
-                <VideoCard
-                  type={testimonialVideo.type}
-                  src={testimonialVideo.src}
-                  title={testimonialVideo.title}
-                  caption={testimonialVideo.caption}
-                  portrait={testimonialVideo.portrait}
-                />
               </div>
             ) : null}
 

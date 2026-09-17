@@ -11,6 +11,7 @@ interface Slide {
   src?: string;
   title: string;
   caption?: string;
+  portrait?: boolean;
 }
 
 /**
@@ -55,7 +56,14 @@ export default function VideoSlider({ slides }: { slides: Slide[] }) {
       <div className="videoTrack" ref={trackRef}>
         {slides.map((s) => (
           <div className="videoSlide" key={s.key}>
-            <VideoCard type={s.type} id={s.id} src={s.src} title={s.title} caption={s.caption} />
+            <VideoCard
+              type={s.type}
+              id={s.id}
+              src={s.src}
+              title={s.title}
+              caption={s.caption}
+              portrait={s.portrait}
+            />
           </div>
         ))}
       </div>

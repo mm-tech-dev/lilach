@@ -73,13 +73,15 @@ export const vision = {
   ],
 } as const;
 
-/** A graduate's testimony, shown in the video strip and on the lectures page. */
+/** A lecture participant's testimony, shown in the video strip and on the lectures page. */
 export const testimonialVideo = {
   key: 'testimonial',
   type: 'file',
   src: '/video-testimonial.mp4',
-  title: 'עדות אישית של בוגרת המרכז',
+  title: 'עדות של משתתפת בהרצאה של לילך הרשקוביץ',
   caption: 'עדות אישית',
+  // Filmed upright on a phone, so a 16:9 box crops away her face.
+  portrait: true,
 } as const;
 
 /** Homepage video strip. Local files live in /public. */
@@ -100,6 +102,35 @@ export const homeVideos = [
   },
   testimonialVideo,
 ] as const;
+
+/* --------------------------------------------------------- online course --- */
+
+/**
+ * The lessons of the digital course "האמת הפשוטה", carried over from the
+ * password-protected "קורס אינטרנטי" page of the WordPress site. The shop card
+ * of the matching product gets a "לצפייה" button that leads here.
+ */
+export const onlineCourse = {
+  href: '/online-course',
+  title: 'קורס אינטרנטי',
+  courseName: 'האמת הפשוטה',
+  /** Matched against the CMS product title to decide which card gets the button. */
+  productMatch: 'האמת הפשוטה',
+  lessons: [
+    { id: 'l2ndDah7QU0', label: 'שיעור 1, 2' },
+    { id: 'PkENxvOBDpM', label: 'שיעור 3' },
+    { id: 'G19EnJuA_F4', label: 'שיעור 4' },
+    { id: 'PUJrv2O9xWA', label: 'שיעור 5, 6' },
+    { id: 'el6XcmMThRY', label: 'שיעור 7' },
+    { id: 'bcz87U7D92g', label: 'שיעור 8' },
+    { id: 'VgIBAmvvnbI', label: 'שיעור 9' },
+    { id: 'FGqpGGdgL7c', label: 'שיעור 10: חניכה' },
+    { id: 'QauntcHFS64', label: 'שיעור 11' },
+    { id: 'St3uoAMbFOM', label: 'שיעור 12, 13' },
+    { id: 'mgNrLcFfonA', label: 'שיעור 14' },
+    { id: 'f4foRWGnndA', label: 'שיעור 15' },
+  ],
+} as const;
 
 /* ----------------------------------------------------------------- media --- */
 

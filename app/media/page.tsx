@@ -32,7 +32,7 @@ export default function MediaPage() {
           <p>שיחות מצולמות, כתבות ועדויות אישיות של מי שעברו את התהליך.</p>
         </div>
 
-        <div className="videoGrid">
+        <div className="videoGrid mediaVideos">
           {homeVideos.map((v) => (
             <VideoCard
               key={v.key}
@@ -41,6 +41,7 @@ export default function MediaPage() {
               src={'src' in v ? v.src : undefined}
               title={v.title}
               caption={v.caption}
+              portrait={'portrait' in v ? v.portrait : undefined}
             />
           ))}
         </div>

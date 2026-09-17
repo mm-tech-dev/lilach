@@ -8,7 +8,7 @@ import LeadForm from '@/components/LeadForm';
 import PageHead from '@/components/PageHead';
 import TreatmentGrid from '@/components/TreatmentGrid';
 import VideoCard from '@/components/VideoCard';
-import { contact, testimonialVideo } from '@/lib/site';
+import { contact, onlineCourse, testimonialVideo } from '@/lib/site';
 import { formatPrice } from '@/lib/format';
 import {
   getCourses,
@@ -120,6 +120,7 @@ export default async function ServicePage({ params }: Params) {
                   src={testimonialVideo.src}
                   title={testimonialVideo.title}
                   caption={testimonialVideo.caption}
+                  portrait={testimonialVideo.portrait}
                 />
               </div>
             ) : null}
@@ -213,6 +214,11 @@ export default async function ServicePage({ params }: Params) {
                       ) : null}
                       <div className="foot">
                         <span className="price">{price ?? 'לפרטים'}</span>
+                        {product.title.includes(onlineCourse.productMatch) ? (
+                          <Link className="buyLink viewLink" href={onlineCourse.href}>
+                            לצפייה
+                          </Link>
+                        ) : null}
                         <a
                           className="buyLink"
                           href={`${contact.whatsapp}&text=${encodeURIComponent(

@@ -5,6 +5,8 @@ interface Props {
   src?: string;
   title: string;
   caption?: string;
+  /** Upright phone footage: gets a taller frame so the subject is not cropped. */
+  portrait?: boolean;
 }
 
 /**
@@ -12,10 +14,10 @@ interface Props {
  * scrolled to; local files use the native player with metadata-only preload,
  * which keeps large mp4s from downloading on page load.
  */
-export default function VideoCard({ type, id, src, title, caption }: Props) {
+export default function VideoCard({ type, id, src, title, caption, portrait }: Props) {
   return (
     <figure className="videoCard">
-      <div className="videoFrame">
+      <div className={portrait ? 'videoFrame is-portrait' : 'videoFrame'}>
         {type === 'youtube' && id ? (
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${id}`}

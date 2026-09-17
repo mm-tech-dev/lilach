@@ -649,6 +649,12 @@
   font-size: 14px;
   font-weight: 700;
 }
+/* Secondary action beside "לרכישה", e.g. the online course's "לצפייה". */
+.buyLink.viewLink {
+  background: #f4edfd;
+  color: #7b4cbe;
+  margin-inline-start: auto;
+}
 .productMedia {
   position: relative;
   aspect-ratio: 4 / 3;

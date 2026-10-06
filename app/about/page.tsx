@@ -6,6 +6,7 @@ import ExpandableText from '@/components/ExpandableText';
 import LilachBio from '@/components/LilachBio';
 import LilachGallery from '@/components/LilachGallery';
 import PageHead from '@/components/PageHead';
+import ReviewWall from '@/components/ReviewWall';
 import { site } from '@/lib/site';
 import { getReviews } from '@/lib/vision-os/server';
 
@@ -166,37 +167,7 @@ export default async function AboutPage() {
       </section>
 
       {/* -------------------------------------------------- מה אומרים --- */}
-      <section id="testimonials" className="stories section">
-        <div className="wrap">
-          <div className="storyTitle">
-            <h2>
-              מה אומרים
-              <br />
-              <span>עלינו?</span>
-            </h2>
-            <div className="quoteMark">״</div>
-          </div>
-
-          {reviews.length === 0 ? (
-            <p className="emptyState">ההמלצות יעלו לאתר בקרוב.</p>
-          ) : (
-            <div className="reviewColumns">
-              {reviews.map((review) => (
-                <article key={review.id}>
-                  <div className="stars" aria-label={`דירוג ${review.rating ?? 5} מתוך 5`}>
-                    ✦ ✦ ✦ ✦ ✦
-                  </div>
-                  <blockquote dangerouslySetInnerHTML={{ __html: review.body ?? '' }} />
-                  <div className="person">
-                    <span>{review.initial ?? review.author_name.charAt(0)}</span>
-                    <strong>{review.author_name}</strong>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      <ReviewWall reviews={reviews} id="testimonials" />
 
       <CtaStrip
         title="רוצים להכיר לעומק?"

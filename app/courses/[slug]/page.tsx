@@ -5,9 +5,19 @@ import { notFound } from 'next/navigation';
 
 import LeadForm from '@/components/LeadForm';
 import PageHead from '@/components/PageHead';
+import ReviewWall from '@/components/ReviewWall';
 import { contact, site } from '@/lib/site';
 import { formatCount, formatPrice } from '@/lib/format';
-import { getCourse, getCourses, resolveMedia, resolveMediaMap } from '@/lib/vision-os/server';
+import {
+  getCourse,
+  getCourses,
+  getReviews,
+  resolveMedia,
+  resolveMediaMap,
+} from '@/lib/vision-os/server';
+
+/** Course pages that close with the full testimonial wall. */
+const COURSES_WITH_REVIEWS = ['tikshur-mathilim'];
 
 /** The CMS stores gallery values as a JSON array, sometimes still encoded. */
 function galleryIds(value: string[] | string | null | undefined): string[] {
@@ -66,6 +76,7 @@ export default async function CoursePage({ params }: Params) {
     isCourse ? !c.event_type || c.event_type === 'קורס' : c.event_type && c.event_type !== 'קורס',
   );
   const formOptions = [...siblings.map((c) => c.title), 'אחר'];
+  const reviews = COURSES_WITH_REVIEWS.includes(slug) ? await getReviews() : [];
   const dateLabel = isCourse
     ? 'תאריך פתיחה'
     : course.date_label?.includes('-')
@@ -158,6 +169,18 @@ export default async function CoursePage({ params }: Params) {
             {course.description ? (
               <div className="prose" dangerouslySetInnerHTML={{ __html: course.description }} />
             ) : null}
+
+            {/* A taste of the wall right after the course text, on a wide
+                screen; "קרא עוד" jumps to the full set at the foot. */}
+            {reviews.length > 0 ? (
+              <ReviewWall
+                reviews={reviews}
+                className="previewReviews"
+                initialCount={3}
+                moreHref="#all-reviews"
+                headingLines={['מה מספרים', 'הבוגרים.']}
+              />
+            ) : null}
           </div>
 
           <aside className="detailAside">
@@ -192,6 +215,12 @@ export default async function CoursePage({ params }: Params) {
               </a>
             </div>
 
+            {/* On a phone the wall sits between the two cards; on a wide screen
+                it keeps its full-width place at the foot of the page. */}
+            {reviews.length > 0 ? (
+              <ReviewWall reviews={reviews} className="asideReviews" initialCount={3} />
+            ) : null}
+
             <div className="detailCard">
               <h2>הרשמה ופרטים</h2>
               <LeadForm
@@ -211,6 +240,10 @@ export default async function CoursePage({ params }: Params) {
           </aside>
         </div>
       </section>
+
+      {reviews.length > 0 ? (
+        <ReviewWall reviews={reviews} className="footReviews" id="all-reviews" />
+      ) : null}
     </>
   );
 }
